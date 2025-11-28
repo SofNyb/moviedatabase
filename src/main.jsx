@@ -7,10 +7,10 @@ import Navbar from "./Components/Navbar.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <Navbar />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-
         <Route path="login" />
         <Route path="register" />
 
