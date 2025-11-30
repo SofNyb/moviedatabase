@@ -7,7 +7,7 @@ import { FaCalendar, FaCog, FaShareAlt, FaUserCircle } from "react-icons/fa";
 
 function UserHero() {
   return (
-    <Container className="my-4 p-4 border rounded">
+    <div className="my-4 p-4 border rounded">
       <Row className="align-items-center">
         <Col md={6}>
           <div className="d-flex align-items-start gap-3">
@@ -50,7 +50,7 @@ function UserHero() {
           </Row>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 }
 
