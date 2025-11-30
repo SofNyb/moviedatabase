@@ -3,8 +3,11 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { FaCalendar, FaCog, FaShareAlt, FaUserCircle } from "react-icons/fa";
+import { user, bookmarks, ratings } from "../data/dummyData";
 
 function UserHero() {
+  const joinedLabel = user.joinedDate || "DATE";
+
   return (
     <div className="my-4 p-4 border rounded">
       <Row className="align-items-center">
@@ -12,9 +15,9 @@ function UserHero() {
           <div className="d-flex align-items-start gap-3">
             <FaUserCircle size={80} className="flex-shrink-0" />
             <div>
-              <Card.Title>User name</Card.Title>
+              <Card.Title>{user.username}</Card.Title>
               <Card.Text>
-                <FaCalendar /> Joined at DATE
+                <FaCalendar /> Joined at {joinedLabel}
               </Card.Text>
               <Button variant="dark">Edit Profile</Button>
             </div>
@@ -29,12 +32,12 @@ function UserHero() {
             </Col>
           </Row>
 
-          <Row className="g-3">
+          <Row className="g-3 text-center">
             <Col>
               <Card>
                 <Card.Body>
                   <Card.Title>Bookmarks</Card.Title>
-                  <Card.Text>Antal</Card.Text>
+                  <Card.Text>{bookmarks.length}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -42,7 +45,7 @@ function UserHero() {
               <Card>
                 <Card.Body>
                   <Card.Title>Ratings</Card.Title>
-                  <Card.Text>Antal</Card.Text>
+                  <Card.Text>{ratings.length}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
