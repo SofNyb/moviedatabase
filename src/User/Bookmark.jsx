@@ -7,7 +7,7 @@ const Bookmark = () => {
   return (
     <div>
       <p>
-        Bookmark
+        Bookmarks {bookmarks.length}
         <FaChevronRight />
       </p>
 
