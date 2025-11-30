@@ -8,18 +8,17 @@ import { FaCalendar, FaCog, FaShareAlt, FaUserCircle } from "react-icons/fa";
 function UserHero() {
   return (
     <Container className="my-4 p-4 border rounded">
-      <Row>
+      <Row className="align-items-center">
         <Col md={6}>
-          <div className="d-flex flex-column align-items-start">
-            <div className="mb-3">
-              <FaUserCircle size={80} />
+          <div className="d-flex align-items-start gap-3">
+            <FaUserCircle size={80} className="flex-shrink-0" />
+            <div>
+              <Card.Title>User name</Card.Title>
+              <Card.Text>
+                <FaCalendar /> Joined at DATE
+              </Card.Text>
+              <Button variant="dark">Edit Profile</Button>
             </div>
-            <Card.Title>User name</Card.Title>
-
-            <Card.Text>
-              <FaCalendar /> Joined at DATE
-            </Card.Text>
-            <Button variant="dark">Edit Profile</Button>
           </div>
         </Col>
 
