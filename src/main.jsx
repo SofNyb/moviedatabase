@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar.jsx";
+import UserPage from "./User/userPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -14,7 +15,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="login" />
         <Route path="register" />
 
-        <Route path="profile/:id">
+        <Route path="profile/:id" element={<UserPage />}>
           <Route path="bookmark" />
           <Route path="rating" />
           <Route path="searchhistory" />
