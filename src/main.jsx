@@ -5,6 +5,8 @@ import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserPage from "./User/userPage.jsx";
 import Navigation from "./Components/Navbar.jsx";
+import Signin from "./Login/Signin.jsx";
+import Bookmark from "./User/Bookmark.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -12,7 +14,7 @@ createRoot(document.getElementById("root")).render(
       <Navigation />
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="login" />
+        <Route path="login" element={<Signin />} />
         <Route path="register" />
 
         <Route path="profile/:id" element={<UserPage />}>
