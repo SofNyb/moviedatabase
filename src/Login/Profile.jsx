@@ -18,12 +18,8 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const userData = await authService.getCurrentUser();
-        console.log("User data from backend:", userData);
-        console.log("userData.name:", userData.name);
-        console.log("userData.email:", userData.email);
-        console.log("Full JSON:", JSON.stringify(userData, null, 2));
+
         setUser(userData);
-        // Backend should return both email and name separately
         setEmail(userData.email || userData.name || "");
         setName(userData.name || "");
         setBirthday(userData.birthday || "");
@@ -44,15 +40,19 @@ const Profile = () => {
     setLoading(true);
 
     try {
-      // TODO: Add update profile API call here
-      // await userService.updateProfile({ email, name, birthday, location });
-      console.log("Profile data:", {
-        email,
+      const profileData = {
         name,
-        birthday,
-        location,
-      });
+        email,
+        birthday: birthday || null,
+        location: location || null,
+      };
+
+      await authService.updateProfile(profileData);
       alert("Profile saved successfully!");
+
+      // Refresh user data
+      const updatedUser = await authService.getCurrentUser();
+      setUser(updatedUser);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save profile");
     } finally {
