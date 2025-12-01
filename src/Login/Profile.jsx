@@ -55,7 +55,6 @@ const Profile = () => {
 
       // Refresh user data
       const updatedUser = await authService.getCurrentUser();
-      console.log("Updated user data:", updatedUser);
       setUser(updatedUser);
       setEmail(updatedUser.email || updatedUser.name || "");
       setName(updatedUser.name || "");
