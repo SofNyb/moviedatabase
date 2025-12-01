@@ -1,9 +1,29 @@
-import { Card, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Card, Button, Spinner } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { FaChevronRight } from "react-icons/fa";
-import { ratings, movies } from "../data/dummyData";
+import { userService } from "../services";
 
 const Rating = () => {
+  const [ratings, setRatings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const ratingsData = await userService.getRatings();
+        setRatings(ratingsData);
+      } catch (error) {
+        console.error("Error fetching ratings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRatings();
+  }, []);
+
+  if (loading) return <Spinner animation="border" />;
   return (
     <div>
       <p>
@@ -12,24 +32,24 @@ const Rating = () => {
       </p>
 
       <Row className="g-3">
-        {ratings.slice(0, 2).map((rating) => {
-          const movie = movies.find((m) => m.id === rating.movieId);
-
-          return (
-            <Col key={rating.id} md={6}>
-              <Card>
-                <Card.Body>
-                  <Card.Text>{movie?.title}</Card.Text>
-                  <Card.Text>Rating: {rating.rating}/10</Card.Text>
-                  <Card.Text>{rating.review}</Card.Text>
-                  <Card.Text className="text-muted small">
-                    {rating.ratedDate}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          );
-        })}
+        {ratings.slice(0, 2).map((rating) => (
+          <Col key={rating.tconst} md={6}>
+            <Card>
+              <Card.Body>
+                <Card.Text>{rating.tconst}</Card.Text>
+                <Card.Text className="text-muted small">
+                  {new Date(rating.createdAt).toLocaleDateString()}
+                </Card.Text>
+                <a
+                  href={rating.titleURL}
+                  className="btn btn-sm btn-outline-dark"
+                >
+                  View Details
+                </a>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
 
       {ratings.length > 2 && (
