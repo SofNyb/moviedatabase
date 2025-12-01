@@ -48,12 +48,14 @@ function UserHero() {
           <div className="d-flex align-items-start gap-3">
             <FaUserCircle size={80} className="flex-shrink-0" />
             <div>
-              <Card.Title>{user.email || user.name}</Card.Title>
+              <Card.Title>{user.name || user.email}</Card.Title>
               <Card.Text>
                 <FaCalendar /> Joined at{" "}
                 {new Date(user.createdAt).toLocaleDateString()}
               </Card.Text>
-              <Button variant="dark">Edit Profile</Button>
+              <Button variant="dark" href="/profile">
+                Edit Profile
+              </Button>
             </div>
           </div>
         </Col>
