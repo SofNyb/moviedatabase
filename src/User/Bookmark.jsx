@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { Card, Spinner, Row, Col } from "react-bootstrap";
 import { userService } from "../services";
+import FormatDate from "../Components/FormatDate";
 
 const Bookmark = () => {
   const [titleBookmarks, setTitleBookmarks] = useState([]);
@@ -55,7 +56,7 @@ const Bookmark = () => {
                 <Card.Body>
                   <Card.Text>{bookmark.tconst}</Card.Text>
                   <Card.Text className="text-muted small">
-                    {new Date(bookmark.createdAt).toLocaleDateString()}
+                    {FormatDate(bookmark.createdAt)}
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -75,7 +76,7 @@ const Bookmark = () => {
                 <Card.Body>
                   <Card.Text>{bookmark.nconst}</Card.Text>
                   <Card.Text className="text-muted small">
-                    {new Date(bookmark.createdAt).toLocaleDateString()}
+                    {FormatDate(bookmark.createdAt)}
                   </Card.Text>
                 </Card.Body>
               </Card>
