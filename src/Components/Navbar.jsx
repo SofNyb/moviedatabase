@@ -6,8 +6,21 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BsSearch } from "react-icons/bs";
+import { useState, useEffect } from "react";
+import { authService } from "../services";
 
 const Navigation = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const currentUser = await authService.getCurrentUser();
+      setUser(currentUser);
+    };
+
+    fetchUser();
+  }, []);
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid className="px-4">
@@ -45,22 +58,25 @@ const Navigation = () => {
               </Row>
             </Form>
 
-            <Nav.Link href="#link">Bookmarks</Nav.Link>
-            <NavDropdown title="NAME" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">
-                Your profile
+            <Nav.Link href="/bookmarks">Bookmarks</Nav.Link>
+            <NavDropdown
+              title={user ? user.name : "User"}
+              id="basic-nav-dropdown"
+            >
+              <NavDropdown.Item href="/profile/:id">Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/profile">
+                Edit your profile
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/bookmarks">
                 Your bookmarks
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">
-                Your ratings
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">
+              <NavDropdown.Item href="/ratings">Your ratings</NavDropdown.Item>
+              <NavDropdown.Item href="/searchhistory">
                 Your search history
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Sign out</NavDropdown.Item>
+              <NavDropdown.Item href="/signout">Sign out</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
