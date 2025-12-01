@@ -22,7 +22,7 @@ const Profile = () => {
         setUser(userData);
         setEmail(userData.email || userData.name || "");
         setName(userData.name || "");
-        setBirthday(userData.birthday || "");
+        setBirthday(userData.birthday ? userData.birthday.split("T")[0] : "");
         setLocation(userData.location || "");
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -43,18 +43,34 @@ const Profile = () => {
       const profileData = {
         name,
         email,
-        birthday: birthday || null,
+        birthday: birthday
+          ? new Date(birthday + "T00:00:00Z").toISOString()
+          : null,
         location: location || null,
       };
 
-      await authService.updateProfile(profileData);
+      const response = await authService.updateProfile(profileData);
+
       alert("Profile saved successfully!");
 
       // Refresh user data
       const updatedUser = await authService.getCurrentUser();
+      console.log("Updated user data:", updatedUser);
       setUser(updatedUser);
+      setEmail(updatedUser.email || updatedUser.name || "");
+      setName(updatedUser.name || "");
+      setBirthday(
+        updatedUser.birthday ? updatedUser.birthday.split("T")[0] : ""
+      );
+      setLocation(updatedUser.location || "");
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to save profile");
+      console.error("=== UPDATE FAILED ===");
+      console.error("Error object:", err);
+      console.error("Response data:", err.response?.data);
+      console.error("Status:", err.response?.status);
+      setError(
+        err.response?.data?.message || err.message || "Failed to save profile"
+      );
     } finally {
       setLoading(false);
     }

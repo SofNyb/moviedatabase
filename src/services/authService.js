@@ -29,4 +29,9 @@ export const authService = {
     const response = await api.get("/api/person");
     return response.data;
   },
+
+  updateProfile: async (profileData) => {
+    const response = await api.put("/api/person/profile", profileData);
+    return response.data;
+  },
 };
