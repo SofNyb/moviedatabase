@@ -1,28 +1,60 @@
-import { Card, Container, Form, Row, Col } from "react-bootstrap";
+import { useState } from "react";
+import { Card, Container, Form, Button, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { authService } from "../services";
 
 const Signin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      await authService.login(email, password);
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container>
       <Card className="mt-5 p-3">
         <Card.Body>
           <Card.Title>Sign In</Card.Title>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          {error && <Alert variant="danger">{error}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="name@example.com" />
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </Form.Group>
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="formPlaintextPassword"
-            >
-              <Form.Label column sm="2">
-                Password
-              </Form.Label>
-              <Col sm="10">
-                <Form.Control type="password" placeholder="Password" />
-              </Col>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </Form.Group>
+            <Button variant="primary" type="submit" disabled={loading}>
+              {loading ? "Signing in..." : "Sign In"}
+            </Button>
           </Form>
         </Card.Body>
       </Card>
