@@ -1,7 +1,145 @@
-import React from "react";
+import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { authService, userService } from "../services";
+import { FaCalendar } from "react-icons/fa";
 
 const Profile = () => {
-  return <div>indsæt dine informationer</div>;
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [location, setLocation] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await authService.getCurrentUser();
+        console.log("User data from backend:", userData);
+        console.log("userData.name:", userData.name);
+        console.log("userData.email:", userData.email);
+        console.log("Full JSON:", JSON.stringify(userData, null, 2));
+        setUser(userData);
+        // Backend should return both email and name separately
+        setEmail(userData.email || userData.name || "");
+        setName(userData.name || "");
+        setBirthday(userData.birthday || "");
+        setLocation(userData.location || "");
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      // TODO: Add update profile API call here
+      // await userService.updateProfile({ email, name, birthday, location });
+      console.log("Profile data:", {
+        email,
+        name,
+        birthday,
+        location,
+      });
+      alert("Profile saved successfully!");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to save profile");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Container>
+      <Card className="mt-5 p-3">
+        <Card.Title>Profile</Card.Title>
+        <Card.Body>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <Form onSubmit={handleSubmit}>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="birthday">
+                    <Form.Label>
+                      Birthday <FaCalendar />
+                    </Form.Label>
+                    <Form.Control
+                      type="date"
+                      placeholder="Enter your birthday"
+                      value={birthday}
+                      onChange={(e) => setBirthday(e.target.value)}
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="location">
+                    <Form.Label>Location</Form.Label>
+                    <Form.Select
+                      aria-label="Select location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                    >
+                      <option value="">Select your location</option>
+                      <option value="DA">DA</option>
+                      <option value="UK">UK</option>
+                      <option value="US">US</option>
+                      <option value="Other">Other</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              {error && <p className="text-danger">{error}</p>}
+
+              <Button variant="primary" type="submit" disabled={loading}>
+                {loading ? "Saving..." : "Save Profile"}
+              </Button>
+            </Form>
+          )}
+        </Card.Body>
+      </Card>
+    </Container>
+  );
 };
 
 export default Profile;
