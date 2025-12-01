@@ -5,7 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserPage from "./User/userPage.jsx";
-import Navigation from "./Components/Navbar.jsx";
+import Navigation from "./Components/Nav/Navbar.jsx";
 import Login from "./Login/Login.jsx";
 import Register from "./Login/Register.jsx";
 import Profile from "./Login/Profile.jsx";
