@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, Button, Spinner } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { FaChevronRight } from "react-icons/fa";
-import { userService } from "../services";
+import { userService, titleService } from "../services";
 import FormatDate from "../Components/FormatDate";
 
 const Rating = () => {
@@ -13,7 +13,22 @@ const Rating = () => {
     const fetchRatings = async () => {
       try {
         const ratingsData = await userService.getRatings();
-        setRatings(ratingsData);
+
+        // Fetch full title details for each rating
+        const ratingsWithDetails = await Promise.all(
+          ratingsData.map((rating) =>
+            titleService
+              .getTitleById(rating.tconst)
+              .then((titleData) => ({ ...rating, titleData }))
+              .catch((err) => {
+                console.error(`Error fetching title ${rating.tconst}:`, err);
+                return rating;
+              })
+          )
+        );
+
+        console.log("Ratings with details:", ratingsWithDetails);
+        setRatings(ratingsWithDetails);
       } catch (error) {
         console.error("Error fetching ratings:", error);
       } finally {
@@ -39,10 +54,16 @@ const Rating = () => {
               <Card>
                 <Card.Img
                   variant="top"
-                  src={rating.imageURL ? rating.imageURL : "holder.js/100px180"}
+                  src={
+                    rating.titleData?.poster ||
+                    "https://via.placeholder.com/300x450?text=No+Image"
+                  }
+                  style={{ height: "300px", objectFit: "cover" }}
                 />
                 <Card.Body>
-                  <Card.Text>{rating.tconst}</Card.Text>
+                  <Card.Text>
+                    {rating.titleData?.primaryTitle || rating.tconst}
+                  </Card.Text>
                   <Card.Text>
                     Rating: {rating.ratingValue || "N/A"}/10
                   </Card.Text>

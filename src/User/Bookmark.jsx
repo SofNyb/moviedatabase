@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { Card, Spinner, Row, Col } from "react-bootstrap";
-import { userService } from "../services";
+import { userService, titleService, nameService } from "../services";
 import FormatDate from "../Components/FormatDate";
 
 const Bookmark = () => {
@@ -16,10 +16,35 @@ const Bookmark = () => {
           userService.getTitleBookmarks(),
           userService.getNameBookmarks(),
         ]);
-        console.log("Title bookmarks:", titleBm);
-        console.log("Name bookmarks:", nameBm);
-        setTitleBookmarks(titleBm);
-        setNameBookmarks(nameBm);
+
+        // Fetch full title details for each bookmark
+        const titleDetailsPromises = titleBm.map((bookmark) =>
+          titleService
+            .getTitleById(bookmark.tconst)
+            .then((titleData) => ({ ...bookmark, titleData }))
+            .catch((err) => {
+              console.error(`Error fetching title ${bookmark.tconst}:`, err);
+              return bookmark;
+            })
+        );
+
+        // Fetch full name details for each bookmark
+        const nameDetailsPromises = nameBm.map((bookmark) =>
+          nameService
+            .getNameById(bookmark.nconst)
+            .then((nameData) => ({ ...bookmark, nameData }))
+            .catch((err) => {
+              console.error(`Error fetching name ${bookmark.nconst}:`, err);
+              return bookmark;
+            })
+        );
+
+        const [titlesWithDetails, namesWithDetails] = await Promise.all([
+          Promise.all(titleDetailsPromises),
+          Promise.all(nameDetailsPromises),
+        ]);
+        setTitleBookmarks(titlesWithDetails);
+        setNameBookmarks(namesWithDetails);
       } catch (error) {
         console.error("Error fetching bookmarks:", error);
         console.error("Error details:", error.response?.data);
@@ -50,11 +75,15 @@ const Bookmark = () => {
                 <Card.Img
                   variant="top"
                   src={
-                    bookmark.imageURL ? bookmark.imageURL : "holder.js/100px180"
+                    bookmark.titleData?.poster ||
+                    "https://via.placeholder.com/300x450?text=No+Image"
                   }
+                  style={{ height: "300px", objectFit: "cover" }}
                 />
                 <Card.Body>
-                  <Card.Text>{bookmark.tconst}</Card.Text>
+                  <Card.Text>
+                    {bookmark.titleData?.primaryTitle || bookmark.tconst}
+                  </Card.Text>
                   <Card.Text className="text-muted small">
                     {FormatDate(bookmark.createdAt)}
                   </Card.Text>
@@ -69,12 +98,13 @@ const Bookmark = () => {
               <Card>
                 <Card.Img
                   variant="top"
-                  src={
-                    bookmark.imageURL ? bookmark.imageURL : "holder.js/100px180"
-                  }
+                  src="https://via.placeholder.com/300x450?text=Actor"
+                  style={{ height: "300px", objectFit: "cover" }}
                 />
                 <Card.Body>
-                  <Card.Text>{bookmark.nconst}</Card.Text>
+                  <Card.Text>
+                    {bookmark.nameData?.name || bookmark.nconst}
+                  </Card.Text>
                   <Card.Text className="text-muted small">
                     {FormatDate(bookmark.createdAt)}
                   </Card.Text>
