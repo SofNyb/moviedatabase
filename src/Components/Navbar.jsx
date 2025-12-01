@@ -7,14 +7,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BsSearch } from "react-icons/bs";
 
-function BasicExample() {
+const Navigation = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
+      <Container fluid className="px-4">
         <Navbar.Brand href="#home">LOGO</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="mx-auto">
             <NavDropdown title="Menu" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -67,6 +67,6 @@ function BasicExample() {
       </Container>
     </Navbar>
   );
-}
+};
 
-export default BasicExample;
+export default Navigation;
