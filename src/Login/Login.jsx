@@ -55,6 +55,9 @@ const Login = () => {
             <Button variant="primary" type="submit" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </Button>
+            <Button variant="secondary" type="button" href="/register">
+              Register
+            </Button>
           </Form>
         </Card.Body>
       </Card>

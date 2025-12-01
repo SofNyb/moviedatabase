@@ -74,6 +74,9 @@ const Register = () => {
             <Button variant="primary" type="submit" disabled={loading}>
               {loading ? "Registering..." : "Register"}
             </Button>
+            <Button variant="secondary" type="button" href="/login">
+              Login
+            </Button>
           </Form>
         </Card.Body>
       </Card>
