@@ -24,7 +24,7 @@ const Register = () => {
 
     try {
       await authService.register(email, password);
-      navigate("/login");
+      navigate("/profile:id");
     } catch (err) {
       setError(
         err.response?.data || "Registration failed. User may already exist."
