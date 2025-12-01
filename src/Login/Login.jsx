@@ -3,7 +3,7 @@ import { Card, Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services";
 
-const Signin = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -62,4 +62,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Login;

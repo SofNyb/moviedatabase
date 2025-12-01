@@ -6,7 +6,7 @@ import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserPage from "./User/userPage.jsx";
 import Navigation from "./Components/Navbar.jsx";
-import Signin from "./Login/Signin.jsx";
+import Login from "./Login/Login.jsx";
 import Register from "./Login/Register.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -15,7 +15,7 @@ createRoot(document.getElementById("root")).render(
       <Navigation />
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="login" element={<Signin />} />
+        <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
 
         <Route path="profile/:id" element={<UserPage />}>
