@@ -34,20 +34,23 @@ const Rating = () => {
       <Row className="g-3">
         {ratings.slice(0, 2).map((rating) => (
           <Col key={rating.tconst} md={6}>
-            <Card>
-              <Card.Body>
-                <Card.Text>{rating.tconst}</Card.Text>
-                <Card.Text className="text-muted small">
-                  {new Date(rating.createdAt).toLocaleDateString()}
-                </Card.Text>
-                <a
-                  href={rating.titleURL}
-                  className="btn btn-sm btn-outline-dark"
-                >
-                  View Details
-                </a>
-              </Card.Body>
-            </Card>
+            <a href={`/title/${rating.tconst}`}>
+              <Card>
+                <Card.Img
+                  variant="top"
+                  src={rating.imageURL ? rating.imageURL : "holder.js/100px180"}
+                />
+                <Card.Body>
+                  <Card.Text>{rating.tconst}</Card.Text>
+                  <Card.Text>
+                    Rating: {rating.ratingValue || "N/A"}/10
+                  </Card.Text>
+                  <Card.Text className="text-muted small">
+                    {new Date(rating.createdAt).toLocaleDateString()}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </a>
           </Col>
         ))}
       </Row>
