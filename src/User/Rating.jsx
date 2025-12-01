@@ -3,6 +3,7 @@ import { Card, Button, Spinner } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { FaChevronRight } from "react-icons/fa";
 import { userService } from "../services";
+import FormatDate from "../Components/FormatDate";
 
 const Rating = () => {
   const [ratings, setRatings] = useState([]);
@@ -46,7 +47,7 @@ const Rating = () => {
                     Rating: {rating.ratingValue || "N/A"}/10
                   </Card.Text>
                   <Card.Text className="text-muted small">
-                    {new Date(rating.createdAt).toLocaleDateString()}
+                    {FormatDate(rating.createdAt)}
                   </Card.Text>
                 </Card.Body>
               </Card>
