@@ -42,10 +42,10 @@ const Rating = () => {
   if (loading) return <Spinner animation="border" />;
   return (
     <div>
-      <p>
+      <a href="/rating" className="d-flex align-items-center mb-3 text-dark">
         Ratings {ratings.length}
         <FaChevronRight />
-      </p>
+      </a>
 
       <Row className="g-3">
         {ratings.slice(0, 2).map((rating) => (

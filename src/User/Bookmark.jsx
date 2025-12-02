@@ -62,10 +62,10 @@ const Bookmark = () => {
 
   return (
     <div>
-      <p>
+      <a href="/bookmark" className="d-flex align-items-center mb-3 text-dark">
         Bookmarks {totalBookmarks}
         <FaChevronRight />
-      </p>
+      </a>
 
       <Row className="g-3">
         {titleBookmarks.map((bookmark) => (
