@@ -40,7 +40,6 @@ function UserHero() {
   }, []);
 
   if (loading) return <div className="text-center p-4">Loading...</div>;
-  if (!user) return <div className="text-center p-4">Please log in</div>;
 
   return (
     <div className="my-4 p-4 border rounded">
