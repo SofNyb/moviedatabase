@@ -1,6 +1,7 @@
 import { NavDropdown } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { authService } from "../../services";
+import { Alert } from "react-bootstrap";
 
 const User = () => {
   const [user, setUser] = useState(null);
@@ -14,6 +15,17 @@ const User = () => {
     fetchUser();
   }, []);
 
+  const handleSignOut = async () => {
+    try {
+      await authService.logout();
+      navigate("/signout");
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <NavDropdown title={user ? user.name : "User"} id="basic-nav-dropdown">
       <NavDropdown.Item href="/profile/:id">Profile</NavDropdown.Item>
@@ -25,7 +37,7 @@ const User = () => {
         Your search history
       </NavDropdown.Item>
       <NavDropdown.Divider />
-      <NavDropdown.Item href="/signout">Sign out</NavDropdown.Item>
+      <NavDropdown.Item onClick={handleSignOut}>Sign out</NavDropdown.Item>
     </NavDropdown>
   );
 };
