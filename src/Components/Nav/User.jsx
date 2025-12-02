@@ -1,29 +1,46 @@
 import { NavDropdown } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { authService } from "../../services";
-import { Alert } from "react-bootstrap";
 
 const User = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const currentUser = await authService.getCurrentUser();
-      setUser(currentUser);
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const currentUser = await authService.getCurrentUser();
+          setUser(currentUser);
+        } catch (error) {
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
     };
 
     fetchUser();
+
+    // Listen for auth changes
+    const handleAuthChange = () => {
+      fetchUser();
+    };
+
+    window.addEventListener('authChange', handleAuthChange);
+
+    return () => {
+      window.removeEventListener('authChange', handleAuthChange);
+    };
   }, []);
 
-  const handleSignOut = async () => {
-    try {
-      await authService.logout();
-      navigate("/signout");
-    } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password");
-    } finally {
-      setLoading(false);
-    }
+  const handleSignOut = () => {
+    authService.logout();
+    setUser(null);
+    window.dispatchEvent(new Event('authChange'));
+    navigate("/");
   };
 
   return (

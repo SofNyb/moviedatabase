@@ -40,6 +40,8 @@ const Register = () => {
 
     try {
       await authService.register(email, password);
+      // Notify other components that auth state changed
+      window.dispatchEvent(new Event('authChange'));
       navigate("/profile");
     } catch (err) {
       setError(

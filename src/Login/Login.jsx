@@ -33,6 +33,8 @@ const Login = () => {
 
     try {
       await authService.login(email, password);
+      // Notify navbar and other components that auth state changed
+      window.dispatchEvent(new Event("authChange"));
       navigate("/profile/:id");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password");
