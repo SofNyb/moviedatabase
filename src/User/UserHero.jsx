@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { FaCalendar, FaCog, FaShareAlt, FaUserCircle } from "react-icons/fa";
 import { authService, userService } from "../services";
+import FormatDate from "../Components/FormatDate";
 
 function UserHero() {
   const [user, setUser] = useState(null);
@@ -50,8 +51,7 @@ function UserHero() {
             <div>
               <Card.Title>{user.name || user.email}</Card.Title>
               <Card.Text>
-                <FaCalendar /> Joined at{" "}
-                {new Date(user.createdAt).toLocaleDateString()}
+                <FaCalendar /> Joined at {FormatDate(user.createdAt)}
               </Card.Text>
               <Button variant="dark" href="/profile">
                 Edit Profile
