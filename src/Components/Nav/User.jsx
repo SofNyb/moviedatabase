@@ -1,4 +1,4 @@
-import { NavDropdown } from "react-bootstrap";
+import { Button, NavDropdown } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../../services";
@@ -29,33 +29,43 @@ const User = () => {
       fetchUser();
     };
 
-    window.addEventListener('authChange', handleAuthChange);
+    window.addEventListener("authChange", handleAuthChange);
 
     return () => {
-      window.removeEventListener('authChange', handleAuthChange);
+      window.removeEventListener("authChange", handleAuthChange);
     };
   }, []);
 
   const handleSignOut = () => {
     authService.logout();
     setUser(null);
-    window.dispatchEvent(new Event('authChange'));
+    window.dispatchEvent(new Event("authChange"));
     navigate("/");
   };
 
+  if (user) {
+    return (
+      <NavDropdown title={user.name} id="basic-nav-dropdown">
+        <NavDropdown.Item href={`/profile/${user.id}`}>
+          Profile
+        </NavDropdown.Item>
+        <NavDropdown.Item href="/profile">Edit your profile</NavDropdown.Item>
+        <NavDropdown.Divider />
+        <NavDropdown.Item href="/bookmarks">Your bookmarks</NavDropdown.Item>
+        <NavDropdown.Item href="/ratings">Your ratings</NavDropdown.Item>
+        <NavDropdown.Item href="/searchhistory">
+          Your search history
+        </NavDropdown.Item>
+        <NavDropdown.Divider />
+        <NavDropdown.Item onClick={handleSignOut}>Sign out</NavDropdown.Item>
+      </NavDropdown>
+    );
+  }
+
   return (
-    <NavDropdown title={user ? user.name : "User"} id="basic-nav-dropdown">
-      <NavDropdown.Item href="/profile/:id">Profile</NavDropdown.Item>
-      <NavDropdown.Item href="/profile">Edit your profile</NavDropdown.Item>
-      <NavDropdown.Divider />
-      <NavDropdown.Item href="/bookmarks">Your bookmarks</NavDropdown.Item>
-      <NavDropdown.Item href="/ratings">Your ratings</NavDropdown.Item>
-      <NavDropdown.Item href="/searchhistory">
-        Your search history
-      </NavDropdown.Item>
-      <NavDropdown.Divider />
-      <NavDropdown.Item onClick={handleSignOut}>Sign out</NavDropdown.Item>
-    </NavDropdown>
+    <Button href="/login" variant="light">
+      Sign In
+    </Button>
   );
 };
 
