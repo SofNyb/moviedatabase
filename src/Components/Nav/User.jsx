@@ -44,11 +44,11 @@ const User = () => {
   };
 
   if (user) {
+    const userId = user.url.split("/").pop();
+
     return (
       <NavDropdown title={user.name} id="basic-nav-dropdown">
-        <NavDropdown.Item href={`/profile/${user.id}`}>
-          Profile
-        </NavDropdown.Item>
+        <NavDropdown.Item href={`/profile/${userId}`}>Profile</NavDropdown.Item>
         <NavDropdown.Item href="/profile">Edit your profile</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/bookmarks">Your bookmarks</NavDropdown.Item>
