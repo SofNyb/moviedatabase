@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { FaCalendar, FaCog, FaShareAlt, FaUserCircle } from "react-icons/fa";
+import { FaCalendar, FaCog, FaUserCircle } from "react-icons/fa";
 import { authService, userService } from "../services";
 import FormatDate from "../Components/FormatDate";
 
@@ -62,8 +62,9 @@ function UserHero() {
         <Col md={6}>
           <Row className="mb-2">
             <Col xs={11} className="d-flex justify-content-end">
-              <FaShareAlt size={20} />
-              <FaCog size={20} />
+              <a href="/profile" className="ms-3 text-dark">
+                <FaCog size={20} />
+              </a>
             </Col>
           </Row>
 
