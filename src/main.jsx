@@ -9,6 +9,8 @@ import Navigation from "./Components/Nav/Navbar.jsx";
 import Login from "./Login/Login.jsx";
 import Register from "./Login/Register.jsx";
 import Profile from "./Login/Profile.jsx";
+import BookmarkPage from "./User/BookmarkPage/BookmarkPage.jsx";
+import RatingsPage from "./User/RatingsPage/RatingsPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -19,10 +21,10 @@ createRoot(document.getElementById("root")).render(
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="bookmark" element={<BookmarkPage />} />
+        <Route path="rating" element={<RatingsPage />} />
 
         <Route path="profile/:id" element={<UserPage />}>
-          <Route path="bookmark" />
-          <Route path="rating" />
           <Route path="searchhistory" />
         </Route>
 
