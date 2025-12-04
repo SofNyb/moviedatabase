@@ -70,7 +70,7 @@ const BookmarkPage = () => {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4">Your Bookmarks ({totalBookmarks})</h1>
+      <h2 className="mb-4">Your Bookmarks ({totalBookmarks})</h2>
       {totalBookmarks === 0 ? (
         <div className="text-center py-5">
           <p className="text-muted">You haven't bookmarked anything yet.</p>

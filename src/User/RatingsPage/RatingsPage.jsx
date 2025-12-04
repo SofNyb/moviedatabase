@@ -51,7 +51,7 @@ const RatingsPage = () => {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4">Your Ratings ({ratings.length})</h1>
+      <h2 className="mb-4">Your Ratings ({ratings.length})</h2>
       {ratings.length === 0 ? (
         <div className="text-center py-5">
           <p className="text-muted">You haven't rated anything yet.</p>
