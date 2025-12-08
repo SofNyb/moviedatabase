@@ -14,7 +14,6 @@ const RatingList = ({ isPreview = false, limit = null }) => {
 
   // Limit items for preview mode
   const displayRatings = limit ? ratings.slice(0, limit) : ratings;
-  const hasMore = ratings.length > displayRatings.length;
 
   return (
     <div className={isPreview ? "" : "container py-4"}>
@@ -24,7 +23,7 @@ const RatingList = ({ isPreview = false, limit = null }) => {
           <FaChevronRight />
         </Link>
       ) : (
-        <h1 className="mb-4">Your Ratings ({ratings.length})</h1>
+        <h2 className="mb-4">Your Ratings ({ratings.length})</h2>
       )}
 
       {ratings.length === 0 ? (

@@ -24,9 +24,6 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
       ? []
       : nameBookmarks;
 
-  const hasMore =
-    totalBookmarks > displayTitleBookmarks.length + displayNameBookmarks.length;
-
   return (
     <div className={isPreview ? "" : "container py-4"}>
       {isPreview ? (
@@ -38,7 +35,7 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
           <FaChevronRight />
         </Link>
       ) : (
-        <h1 className="mb-4">Your Bookmarks ({totalBookmarks})</h1>
+        <h2 className="mb-4">Your Bookmarks ({totalBookmarks})</h2>
       )}
 
       {totalBookmarks === 0 ? (
@@ -57,7 +54,7 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
                 href={`/title/${bookmark.tconst}`}
                 imageUrl={bookmark.titleData?.poster}
                 title={bookmark.titleData?.primaryTitle || bookmark.tconst}
-                subtitle={`Bookmarked ${FormatDate(bookmark.createdAt)}`}
+                subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
               />
             </Col>
           ))}
@@ -73,7 +70,7 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
                 href={`/name/${bookmark.nconst}`}
                 imageUrl="https://via.placeholder.com/300x450?text=Actor"
                 title={bookmark.nameData?.name || bookmark.nconst}
-                subtitle={`Bookmarked ${FormatDate(bookmark.createdAt)}`}
+                subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
               />
             </Col>
           ))}
