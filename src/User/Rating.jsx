@@ -76,12 +76,6 @@ const Rating = () => {
           </Col>
         ))}
       </Row>
-
-      {ratings.length > 2 && (
-        <div className="mt-3 text-center">
-          <Button variant="dark">View All Ratings</Button>
-        </div>
-      )}
     </div>
   );
 };
