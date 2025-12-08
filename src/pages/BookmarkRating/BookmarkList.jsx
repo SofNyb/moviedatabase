@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useBookmarks } from "../../hooks/useBookmarks";
 import ItemCard from "./ItemCard";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 import EmptyState from "./EmptyState";
-import FormatDate from "../FormatDate";
+import FormatDate from "../../Components/FormatDate";
 
 const BookmarkList = ({ isPreview = false, limit = null }) => {
   const { titleBookmarks, nameBookmarks, loading, totalBookmarks } =

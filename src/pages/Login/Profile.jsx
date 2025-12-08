@@ -1,7 +1,7 @@
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { useAuth } from "../hooks/useAuth";
-import LoadingSpinner from "../Components/LoadingSpinner";
+import { useAuth } from "../../hooks/useAuth";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 import { FaCalendar } from "react-icons/fa";
 
 const Profile = () => {

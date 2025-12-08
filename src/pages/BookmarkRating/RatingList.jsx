@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useRatings } from "../../hooks/useRatings";
 import ItemCard from "./ItemCard";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 import EmptyState from "./EmptyState";
-import FormatDate from "../FormatDate";
+import FormatDate from "../../Components/FormatDate";
 
 const RatingList = ({ isPreview = false, limit = null }) => {
   const { ratings, loading } = useRatings();

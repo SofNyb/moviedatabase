@@ -4,13 +4,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserPage from "./User/userPage.jsx";
+import UserPage from "./pages/User/userPage.jsx";
 import Navigation from "./Components/Nav/Navbar.jsx";
-import Login from "./Login/Login.jsx";
-import Register from "./Login/Register.jsx";
-import Profile from "./Login/Profile.jsx";
-import BookmarkList from "./Components/BookmarkRating/BookmarkList.jsx";
-import RatingList from "./Components/BookmarkRating/RatingList.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Register from "./pages/Login/Register.jsx";
+import Profile from "./pages/Login/Profile.jsx";
+import BookmarkList from "./pages/BookmarkRating/BookmarkList.jsx";
+import RatingList from "./pages/BookmarkRating/RatingList.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

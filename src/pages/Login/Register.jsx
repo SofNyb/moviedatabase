@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Card, Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login, isAuthenticated } = useAuth();
+  const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,13 +21,21 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await login({ email, password });
+      await register({ email, password });
       navigate("/profile");
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password");
+      setError(
+        err.response?.data || "Registration failed. User may already exist."
+      );
     } finally {
       setLoading(false);
     }
@@ -36,7 +45,7 @@ const Login = () => {
     <Container>
       <Card className="mt-5 p-3">
         <Card.Body>
-          <Card.Title>Sign In</Card.Title>
+          <Card.Title>Register</Card.Title>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="email">
@@ -59,11 +68,21 @@ const Login = () => {
                 required
               />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="confirmPassword">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
             <Button variant="primary" type="submit" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Registering..." : "Register"}
             </Button>
-            <Button variant="secondary" as={Link} to="/register">
-              Register
+            <Button variant="secondary" type="button" href="/login">
+              Login
             </Button>
           </Form>
         </Card.Body>
@@ -72,4 +91,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

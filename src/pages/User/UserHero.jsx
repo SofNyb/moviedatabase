@@ -1,11 +1,11 @@
 import { Button, Card, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaCalendar, FaCog, FaUserCircle } from "react-icons/fa";
-import { useAuth } from "../hooks/useAuth";
-import { useBookmarks } from "../hooks/useBookmarks";
-import { useRatings } from "../hooks/useRatings";
-import LoadingSpinner from "../Components/LoadingSpinner";
-import FormatDate from "../Components/FormatDate";
+import { useAuth } from "../../hooks/useAuth";
+import { useBookmarks } from "../../hooks/useBookmarks";
+import { useRatings } from "../../hooks/useRatings";
+import LoadingSpinner from "../../Components/LoadingSpinner";
+import FormatDate from "../../Components/FormatDate";
 
 function UserHero() {
   const { user, loading: userLoading } = useAuth();

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import UserHero from "./UserHero.jsx";
 import { Row, Col, Container, Button } from "react-bootstrap";
-import { useAuth } from "../hooks/useAuth";
-import LoadingSpinner from "../Components/LoadingSpinner";
-import BookmarkList from "../Components/BookmarkRating/BookmarkList.jsx";
-import RatingList from "../Components/BookmarkRating/RatingList.jsx";
+import { useAuth } from "../../hooks/useAuth.js";
+import LoadingSpinner from "../../Components/LoadingSpinner.jsx";
+import BookmarkList from "../BookmarkRating/BookmarkList.jsx";
+import RatingList from "../BookmarkRating/RatingList.jsx";
 
 const UserPage = () => {
   const { user, loading } = useAuth();
