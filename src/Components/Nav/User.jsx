@@ -3,43 +3,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const User = () => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const currentUser = await authService.getCurrentUser();
-          setUser(currentUser);
-        } catch (error) {
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
-    };
-
-    fetchUser();
-
-    // Listen for auth changes
-    const handleAuthChange = () => {
-      fetchUser();
-    };
-
-    window.addEventListener("authChange", handleAuthChange);
-
-    return () => {
-      window.removeEventListener("authChange", handleAuthChange);
-    };
-  }, []);
+  const { user, logout } = useAuth();
 
   const handleSignOut = () => {
-    authService.logout();
-    setUser(null);
-    window.dispatchEvent(new Event("authChange"));
-    navigate("/");
+    logout();
   };
 
   if (user) {
