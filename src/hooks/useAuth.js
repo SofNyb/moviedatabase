@@ -41,5 +41,56 @@ export const useAuth = () => {
     }
   };
 
-  return { user, loading, error, refreshUser };
+  const login = async (credentials) => {
+    try {
+      const response = await authService.login(credentials);
+      const currentUser = await authService.getCurrentUser();
+      setUser(currentUser);
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
+  const register = async (userData) => {
+    try {
+      const response = await authService.register(userData);
+      const currentUser = await authService.getCurrentUser();
+      setUser(currentUser);
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    window.location.href = "/login";
+  };
+
+  const updateProfile = async (profileData) => {
+    try {
+      const response = await authService.updateProfile(profileData);
+      await refreshUser();
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
+  return {
+    user,
+    loading,
+    error,
+    isAuthenticated: !!user,
+    refreshUser,
+    login,
+    register,
+    logout,
+    updateProfile,
+  };
 };
