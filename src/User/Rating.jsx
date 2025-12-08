@@ -1,45 +1,14 @@
-import { useState, useEffect } from "react";
-import { Card, Button, Spinner } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { FaChevronRight } from "react-icons/fa";
-import { userService, titleService } from "../services";
+import { useRatings } from "../hooks/useRatings";
+import LoadingSpinner from "../Components/LoadingSpinner";
 import FormatDate from "../Components/FormatDate";
 
 const Rating = () => {
-  const [ratings, setRatings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { ratings, loading } = useRatings();
 
-  useEffect(() => {
-    const fetchRatings = async () => {
-      try {
-        const ratingsData = await userService.getRatings();
-
-        // Fetch full title details for each rating
-        const ratingsWithDetails = await Promise.all(
-          ratingsData.map((rating) =>
-            titleService
-              .getTitleById(rating.tconst)
-              .then((titleData) => ({ ...rating, titleData }))
-              .catch((err) => {
-                console.error(`Error fetching title ${rating.tconst}:`, err);
-                return rating;
-              })
-          )
-        );
-
-        console.log("Ratings with details:", ratingsWithDetails);
-        setRatings(ratingsWithDetails);
-      } catch (error) {
-        console.error("Error fetching ratings:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRatings();
-  }, []);
-
-  if (loading) return <Spinner animation="border" />;
+  if (loading) return <LoadingSpinner />;
   return (
     <div>
       <a href="/rating" className="d-flex align-items-center mb-3 text-dark">
