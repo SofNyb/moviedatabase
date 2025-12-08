@@ -1,131 +1,41 @@
-import { useState, useEffect } from "react";
-import { Card, Spinner, Row, Col } from "react-bootstrap";
-import { userService, titleService, nameService } from "../../services";
+import { Row, Col } from "react-bootstrap";
+import { useBookmarks } from "../../hooks/useBookmarks";
+import ItemCard from "../../Components/ItemCard";
+import LoadingSpinner from "../../Components/LoadingSpinner";
+import EmptyState from "../../Components/EmptyState";
 import FormatDate from "../../Components/FormatDate";
 
 const BookmarkPage = () => {
-  const [titleBookmarks, setTitleBookmarks] = useState([]);
-  const [nameBookmarks, setNameBookmarks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { titleBookmarks, nameBookmarks, loading, totalBookmarks } =
+    useBookmarks();
 
-  useEffect(() => {
-    const fetchBookmarks = async () => {
-      try {
-        const [titleBm, nameBm] = await Promise.all([
-          userService.getTitleBookmarks(),
-          userService.getNameBookmarks(),
-        ]);
-
-        // Fetch full title details for each bookmark
-        const titleDetailsPromises = titleBm.map((bookmark) =>
-          titleService
-            .getTitleById(bookmark.tconst)
-            .then((titleData) => ({ ...bookmark, titleData }))
-            .catch((err) => {
-              console.error(`Error fetching title ${bookmark.tconst}:`, err);
-              return bookmark;
-            })
-        );
-
-        // Fetch full name details for each bookmark
-        const nameDetailsPromises = nameBm.map((bookmark) =>
-          nameService
-            .getNameById(bookmark.nconst)
-            .then((nameData) => ({ ...bookmark, nameData }))
-            .catch((err) => {
-              console.error(`Error fetching name ${bookmark.nconst}:`, err);
-              return bookmark;
-            })
-        );
-
-        const [titlesWithDetails, namesWithDetails] = await Promise.all([
-          Promise.all(titleDetailsPromises),
-          Promise.all(nameDetailsPromises),
-        ]);
-        setTitleBookmarks(titlesWithDetails);
-        setNameBookmarks(namesWithDetails);
-      } catch (error) {
-        console.error("Error fetching bookmarks:", error);
-        console.error("Error details:", error.response?.data);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBookmarks();
-  }, []);
-
-  const totalBookmarks = titleBookmarks.length + nameBookmarks.length;
-
-  if (loading) {
-    return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ minHeight: "50vh" }}
-      >
-        <Spinner animation="border" />
-      </div>
-    );
-  }
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="container py-4">
       <h2 className="mb-4">Your Bookmarks ({totalBookmarks})</h2>
       {totalBookmarks === 0 ? (
-        <div className="text-center py-5">
-          <p className="text-muted">You haven't bookmarked anything yet.</p>
-        </div>
+        <EmptyState message="You haven't bookmarked anything yet." />
       ) : (
         <Row className="g-4">
           {titleBookmarks.map((bookmark) => (
             <Col key={bookmark.tconst} xs={12} sm={6} md={4} lg={3}>
-              <a
+              <ItemCard
                 href={`/title/${bookmark.tconst}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Card className="h-100 bookmark-card">
-                  <Card.Img
-                    variant="top"
-                    src={
-                      bookmark.titleData?.poster ||
-                      "https://via.placeholder.com/300x450?text=No+Image"
-                    }
-                    style={{ height: "400px", objectFit: "cover" }}
-                  />
-                  <Card.Body>
-                    <Card.Title className="text-truncate">
-                      {bookmark.titleData?.primaryTitle || bookmark.tconst}
-                    </Card.Title>
-                    <Card.Text className="text-muted small">
-                      Bookmarked {FormatDate(bookmark.createdAt)}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </a>
+                imageUrl={bookmark.titleData?.poster}
+                title={bookmark.titleData?.primaryTitle || bookmark.tconst}
+                subtitle={`Bookmarked the ${FormatDate(bookmark.createdAt)}`}
+              />
             </Col>
           ))}
           {nameBookmarks.map((bookmark) => (
             <Col key={bookmark.nconst} xs={12} sm={6} md={4} lg={3}>
-              <a
+              <ItemCard
                 href={`/name/${bookmark.nconst}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Card className="h-100 bookmark-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/300x450?text=Actor"
-                    style={{ height: "400px", objectFit: "cover" }}
-                  />
-                  <Card.Body>
-                    <Card.Title className="text-truncate">
-                      {bookmark.nameData?.name || bookmark.nconst}
-                    </Card.Title>
-                    <Card.Text className="text-muted small">
-                      Bookmarked {FormatDate(bookmark.createdAt)}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </a>
+                imageUrl="https://via.placeholder.com/300x450?text=Actor"
+                title={bookmark.nameData?.name || bookmark.nconst}
+                subtitle={`Bookmarked the ${FormatDate(bookmark.createdAt)}`}
+              />
             </Col>
           ))}
         </Row>
