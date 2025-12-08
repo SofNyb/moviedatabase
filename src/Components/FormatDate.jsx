@@ -1,5 +1,3 @@
-import React from "react";
-
 const FormatDate = (dateString) => {
   const date = new Date(dateString);
   const day = date.getDate();

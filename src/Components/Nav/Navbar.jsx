@@ -1,9 +1,4 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Container, Form, Nav, Navbar, Row, Col } from "react-bootstrap";
 import Search from "./Search";
 import User from "./User";
 import Menu from "./Menu";

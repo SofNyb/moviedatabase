@@ -1,7 +1,4 @@
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Button, Card, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaCalendar, FaCog, FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../hooks/useAuth";
