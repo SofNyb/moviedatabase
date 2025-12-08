@@ -1,11 +1,10 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import UserHero from "./UserHero.jsx";
-import Bookmark from "./Bookmark.jsx";
-import Rating from "./Rating.jsx";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import { useAuth } from "../hooks/useAuth";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import BookmarkList from "../Components/BookmarkList.jsx";
+import RatingList from "../Components/RatingList.jsx";
 
 const UserPage = () => {
   const { user, loading } = useAuth();
@@ -26,10 +25,10 @@ const UserPage = () => {
           <UserHero />
           <Row>
             <Col>
-              <Bookmark />
+              <BookmarkList isPreview={true} limit={2} />
             </Col>
             <Col>
-              <Rating />
+              <RatingList isPreview={true} limit={2} />
             </Col>
           </Row>
         </>
