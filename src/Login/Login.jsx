@@ -1,30 +1,21 @@
 import { useState, useEffect } from "react";
 import { Card, Container, Form, Button, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { authService } from "../services";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          await authService.getCurrentUser();
-          navigate("/profile");
-        } catch (error) {
-          // Token is invalid, stay on login page
-          localStorage.removeItem("token");
-        }
-      }
-    };
-    checkAuth();
-  }, [navigate]);
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +23,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await authService.login(email, password);
-      // Notify navbar and other components that auth state changed
-      window.dispatchEvent(new Event("authChange"));
-      navigate("/profile/:id");
+      await login({ email, password });
+      navigate("/profile");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password");
     } finally {
@@ -73,7 +62,7 @@ const Login = () => {
             <Button variant="primary" type="submit" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </Button>
-            <Button variant="secondary" type="button" href="/register">
+            <Button variant="secondary" as={Link} to="/register">
               Register
             </Button>
           </Form>

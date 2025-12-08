@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, Container, Form, Button, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { authService } from "../services";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -9,23 +9,14 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          await authService.getCurrentUser();
-          navigate("/profile");
-        } catch (error) {
-          // Token is invalid, stay on register page
-          localStorage.removeItem("token");
-        }
-      }
-    };
-    checkAuth();
-  }, [navigate]);
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,9 +30,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await authService.register(email, password);
-      // Notify other components that auth state changed
-      window.dispatchEvent(new Event('authChange'));
+      await register({ email, password });
       navigate("/profile");
     } catch (err) {
       setError(
