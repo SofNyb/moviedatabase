@@ -1,45 +1,22 @@
-import { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { FaCalendar, FaCog, FaUserCircle } from "react-icons/fa";
-import { authService, userService } from "../services";
+import { useAuth } from "../hooks/useAuth";
+import { useBookmarks } from "../hooks/useBookmarks";
+import { useRatings } from "../hooks/useRatings";
+import LoadingSpinner from "../Components/LoadingSpinner";
 import FormatDate from "../Components/FormatDate";
 
 function UserHero() {
-  const [user, setUser] = useState(null);
-  const [titleBookmarks, setTitleBookmarks] = useState([]);
-  const [nameBookmarks, setNameBookmarks] = useState([]);
-  const [ratings, setRatings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { user, loading: userLoading } = useAuth();
+  const { totalBookmarks, loading: bookmarksLoading } = useBookmarks();
+  const { ratings, loading: ratingsLoading } = useRatings();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await authService.getCurrentUser();
-        setUser(userData);
+  const loading = userLoading || bookmarksLoading || ratingsLoading;
 
-        const [titleBm, nameBm, ratingsData] = await Promise.all([
-          userService.getTitleBookmarks(),
-          userService.getNameBookmarks(),
-          userService.getRatings(),
-        ]);
-
-        setTitleBookmarks(titleBm);
-        setNameBookmarks(nameBm);
-        setRatings(ratingsData);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  if (loading) return <div className="text-center p-4">Loading...</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="my-4 p-4 border rounded">
@@ -73,9 +50,7 @@ function UserHero() {
               <Card>
                 <Card.Body>
                   <Card.Title>Bookmarks</Card.Title>
-                  <Card.Text>
-                    {titleBookmarks.length + nameBookmarks.length}
-                  </Card.Text>
+                  <Card.Text>{totalBookmarks}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>

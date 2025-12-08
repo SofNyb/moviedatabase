@@ -1,39 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import UserHero from "./UserHero.jsx";
 import Bookmark from "./Bookmark.jsx";
 import Rating from "./Rating.jsx";
 import { Row, Col, Container, Button } from "react-bootstrap";
-import { authService } from "../services";
+import { useAuth } from "../hooks/useAuth";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 const UserPage = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuth();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const currentUser = await authService.getCurrentUser();
-          setUser(currentUser);
-        } catch (error) {
-          console.error("Error fetching user:", error);
-          setUser(null);
-        }
-      }
-      setLoading(false);
-    };
-
-    checkAuth();
-  }, []);
-
-  if (loading) {
-    return (
-      <Container className="text-center p-4">
-        <p>Loading...</p>
-      </Container>
-    );
-  }
+  if (loading) return <LoadingSpinner />;
 
   return (
     <Container>
