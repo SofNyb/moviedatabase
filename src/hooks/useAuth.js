@@ -5,12 +5,14 @@ export const useAuth = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         setLoading(false);
+        setUser(null);
         return;
       }
 
@@ -29,7 +31,18 @@ export const useAuth = () => {
     };
 
     fetchUser();
-  }, []);
+
+    // Listen for auth state changes
+    const handleAuthChange = () => {
+      setRefreshTrigger((prev) => prev + 1);
+    };
+
+    window.addEventListener("authStateChanged", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("authStateChanged", handleAuthChange);
+    };
+  }, [refreshTrigger]);
 
   const refreshUser = async () => {
     try {
@@ -51,6 +64,7 @@ export const useAuth = () => {
       );
       const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
+      window.dispatchEvent(new Event("authStateChanged"));
       return response;
     } catch (error) {
       setError(error);
@@ -66,6 +80,7 @@ export const useAuth = () => {
       );
       const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
+      window.dispatchEvent(new Event("authStateChanged"));
       return response;
     } catch (error) {
       setError(error);
@@ -76,6 +91,7 @@ export const useAuth = () => {
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
+    window.dispatchEvent(new Event("authStateChanged"));
     window.location.href = "/login";
   };
 
@@ -83,6 +99,7 @@ export const useAuth = () => {
     try {
       const response = await authService.updateProfile(profileData);
       await refreshUser();
+      window.dispatchEvent(new Event("authStateChanged"));
       return response;
     } catch (error) {
       setError(error);
