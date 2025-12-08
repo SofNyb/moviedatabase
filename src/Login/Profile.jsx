@@ -1,39 +1,26 @@
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { authService, userService } from "../services";
+import { useAuth } from "../hooks/useAuth";
+import LoadingSpinner from "../Components/LoadingSpinner";
 import { FaCalendar } from "react-icons/fa";
-import React from "react";
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  const { user, loading: authLoading, updateProfile } = useAuth();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [location, setLocation] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await authService.getCurrentUser();
-
-        setUser(userData);
-        setEmail(userData.email || userData.name || "");
-        setName(userData.name || "");
-        setBirthday(userData.birthday ? userData.birthday.split("T")[0] : "");
-        setLocation(userData.location || "");
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    if (user) {
+      setEmail(user.email || user.name || "");
+      setName(user.name || "");
+      setBirthday(user.birthday ? user.birthday.split("T")[0] : "");
+      setLocation(user.location || "");
+    }
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,24 +37,10 @@ const Profile = () => {
         location: location || null,
       };
 
-      const response = await authService.updateProfile(profileData);
-
+      await updateProfile(profileData);
       alert("Profile saved successfully!");
-
-      // Refresh user data
-      const updatedUser = await authService.getCurrentUser();
-      setUser(updatedUser);
-      setEmail(updatedUser.email || updatedUser.name || "");
-      setName(updatedUser.name || "");
-      setBirthday(
-        updatedUser.birthday ? updatedUser.birthday.split("T")[0] : ""
-      );
-      setLocation(updatedUser.location || "");
     } catch (err) {
-      console.error("=== UPDATE FAILED ===");
-      console.error("Error object:", err);
-      console.error("Response data:", err.response?.data);
-      console.error("Status:", err.response?.status);
+      console.error("Update failed:", err);
       setError(
         err.response?.data?.message || err.message || "Failed to save profile"
       );
@@ -75,6 +48,8 @@ const Profile = () => {
       setLoading(false);
     }
   };
+
+  if (authLoading) return <LoadingSpinner />;
 
   return (
     <Container>
