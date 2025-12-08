@@ -19,6 +19,8 @@ export const useAuth = () => {
         setUser(currentUser);
       } catch (error) {
         console.error("Error fetching user:", error);
+        // Token is invalid, clear it
+        localStorage.removeItem("token");
         setError(error);
         setUser(null);
       } finally {
