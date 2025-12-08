@@ -45,7 +45,10 @@ export const useAuth = () => {
 
   const login = async (credentials) => {
     try {
-      const response = await authService.login(credentials);
+      const response = await authService.login(
+        credentials.email,
+        credentials.password
+      );
       const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
       return response;
@@ -57,7 +60,10 @@ export const useAuth = () => {
 
   const register = async (userData) => {
     try {
-      const response = await authService.register(userData);
+      const response = await authService.register(
+        userData.email,
+        userData.password
+      );
       const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
       return response;
