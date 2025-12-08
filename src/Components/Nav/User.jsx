@@ -1,7 +1,6 @@
 import { Button, NavDropdown } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { authService } from "../../services";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const User = () => {
   const [user, setUser] = useState(null);
@@ -48,12 +47,20 @@ const User = () => {
 
     return (
       <NavDropdown title={user.name} id="basic-nav-dropdown">
-        <NavDropdown.Item href={`/profile/${userId}`}>Profile</NavDropdown.Item>
-        <NavDropdown.Item href="/profile">Edit your profile</NavDropdown.Item>
+        <NavDropdown.Item as={Link} to={`/profile/${userId}`}>
+          Profile
+        </NavDropdown.Item>
+        <NavDropdown.Item as={Link} to="/profile">
+          Edit your profile
+        </NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item href="/bookmarks">Your bookmarks</NavDropdown.Item>
-        <NavDropdown.Item href="/ratings">Your ratings</NavDropdown.Item>
-        <NavDropdown.Item href="/searchhistory">
+        <NavDropdown.Item as={Link} to="/bookmark">
+          Your bookmarks
+        </NavDropdown.Item>
+        <NavDropdown.Item as={Link} to="/rating">
+          Your ratings
+        </NavDropdown.Item>
+        <NavDropdown.Item as={Link} to="/searchhistory">
           Your search history
         </NavDropdown.Item>
         <NavDropdown.Divider />
@@ -63,7 +70,7 @@ const User = () => {
   }
 
   return (
-    <Button href="/login" variant="light">
+    <Button as={Link} to="/login" variant="light">
       Sign In
     </Button>
   );
