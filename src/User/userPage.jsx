@@ -3,8 +3,8 @@ import UserHero from "./UserHero.jsx";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import { useAuth } from "../hooks/useAuth";
 import LoadingSpinner from "../Components/LoadingSpinner";
-import BookmarkList from "../Components/BookmarkList.jsx";
-import RatingList from "../Components/RatingList.jsx";
+import BookmarkList from "../Components/BookmarkRating/BookmarkList.jsx";
+import RatingList from "../Components/BookmarkRating/RatingList.jsx";
 
 const UserPage = () => {
   const { user, loading } = useAuth();

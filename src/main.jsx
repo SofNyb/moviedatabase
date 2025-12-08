@@ -9,8 +9,8 @@ import Navigation from "./Components/Nav/Navbar.jsx";
 import Login from "./Login/Login.jsx";
 import Register from "./Login/Register.jsx";
 import Profile from "./Login/Profile.jsx";
-import BookmarkList from "./Components/BookmarkList.jsx";
-import RatingList from "./Components/RatingList.jsx";
+import BookmarkList from "./Components/BookmarkRating/BookmarkList.jsx";
+import RatingList from "./Components/BookmarkRating/RatingList.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

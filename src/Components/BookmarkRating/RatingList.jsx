@@ -1,11 +1,11 @@
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
-import { useRatings } from "../hooks/useRatings";
-import ItemCard from "../Components/ItemCard";
-import LoadingSpinner from "../Components/LoadingSpinner";
-import EmptyState from "../Components/EmptyState";
-import FormatDate from "../Components/FormatDate";
+import { useRatings } from "../../hooks/useRatings";
+import ItemCard from "./ItemCard";
+import LoadingSpinner from "../LoadingSpinner";
+import EmptyState from "./EmptyState";
+import FormatDate from "../FormatDate";
 
 const RatingList = ({ isPreview = false, limit = null }) => {
   const { ratings, loading } = useRatings();

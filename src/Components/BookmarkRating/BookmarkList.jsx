@@ -1,11 +1,11 @@
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
-import { useBookmarks } from "../hooks/useBookmarks";
-import ItemCard from "../Components/ItemCard";
-import LoadingSpinner from "../Components/LoadingSpinner";
-import EmptyState from "../Components/EmptyState";
-import FormatDate from "../Components/FormatDate";
+import { useBookmarks } from "../../hooks/useBookmarks";
+import ItemCard from "./ItemCard";
+import LoadingSpinner from "../LoadingSpinner";
+import EmptyState from "./EmptyState";
+import FormatDate from "../FormatDate";
 
 const BookmarkList = ({ isPreview = false, limit = null }) => {
   const { titleBookmarks, nameBookmarks, loading, totalBookmarks } =
