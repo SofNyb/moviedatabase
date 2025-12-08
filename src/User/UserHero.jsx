@@ -2,6 +2,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Link } from "react-router-dom";
 import { FaCalendar, FaCog, FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../hooks/useAuth";
 import { useBookmarks } from "../hooks/useBookmarks";
@@ -29,7 +30,7 @@ function UserHero() {
               <Card.Text>
                 <FaCalendar /> Joined at {FormatDate(user.createdAt)}
               </Card.Text>
-              <Button variant="dark" href="/profile">
+              <Button variant="dark" as={Link} to="/profile">
                 Edit Profile
               </Button>
             </div>
@@ -39,9 +40,9 @@ function UserHero() {
         <Col md={6}>
           <Row className="mb-2">
             <Col xs={11} className="d-flex justify-content-end">
-              <a href="/profile" className="ms-3 text-dark">
+              <Link to="/profile" className="ms-3 text-dark">
                 <FaCog size={20} />
-              </a>
+              </Link>
             </Col>
           </Row>
 

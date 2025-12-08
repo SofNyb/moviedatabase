@@ -1,5 +1,6 @@
 import { FaChevronRight } from "react-icons/fa";
 import { Card, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useBookmarks } from "../hooks/useBookmarks";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import FormatDate from "../Components/FormatDate";
@@ -12,15 +13,18 @@ const Bookmark = () => {
 
   return (
     <div>
-      <a href="/bookmark" className="d-flex align-items-center mb-3 text-dark">
+      <Link to="/bookmark" className="d-flex align-items-center mb-3 text-dark">
         Bookmarks {totalBookmarks}
         <FaChevronRight />
-      </a>
+      </Link>
 
       <Row className="g-3">
         {titleBookmarks.map((bookmark) => (
           <Col key={bookmark.tconst} md={6}>
-            <a href={`/title/${bookmark.tconst}`}>
+            <Link
+              to={`/title/${bookmark.tconst}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <Card>
                 <Card.Img
                   variant="top"
@@ -39,12 +43,15 @@ const Bookmark = () => {
                   </Card.Text>
                 </Card.Body>
               </Card>
-            </a>
+            </Link>
           </Col>
         ))}
         {nameBookmarks.map((bookmark) => (
           <Col key={bookmark.nconst} md={6}>
-            <a href={`/name/${bookmark.nconst}`}>
+            <Link
+              to={`/name/${bookmark.nconst}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <Card>
                 <Card.Img
                   variant="top"
@@ -60,7 +67,7 @@ const Bookmark = () => {
                   </Card.Text>
                 </Card.Body>
               </Card>
-            </a>
+            </Link>
           </Col>
         ))}
       </Row>

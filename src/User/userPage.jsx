@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import UserHero from "./UserHero.jsx";
 import Bookmark from "./Bookmark.jsx";
 import Rating from "./Rating.jsx";
@@ -16,7 +17,7 @@ const UserPage = () => {
       {!user ? (
         <div className="text-center p-4">
           <p>Please log in</p>
-          <Button variant="primary" href="/login">
+          <Button variant="primary" as={Link} to="/login">
             Login
           </Button>
         </div>

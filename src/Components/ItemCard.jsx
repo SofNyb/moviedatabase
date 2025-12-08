@@ -1,9 +1,10 @@
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import FormatDate from "./FormatDate";
 
 const ItemCard = ({ item, type, href, imageUrl, title, subtitle, badge }) => {
   return (
-    <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
+    <Link to={href} style={{ textDecoration: "none", color: "inherit" }}>
       <Card className="h-100 item-card">
         <Card.Img
           variant="top"
@@ -23,7 +24,7 @@ const ItemCard = ({ item, type, href, imageUrl, title, subtitle, badge }) => {
           )}
         </Card.Body>
       </Card>
-    </a>
+    </Link>
   );
 };
 

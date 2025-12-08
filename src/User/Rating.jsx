@@ -1,5 +1,6 @@
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useRatings } from "../hooks/useRatings";
 import LoadingSpinner from "../Components/LoadingSpinner";
@@ -11,15 +12,18 @@ const Rating = () => {
   if (loading) return <LoadingSpinner />;
   return (
     <div>
-      <a href="/rating" className="d-flex align-items-center mb-3 text-dark">
+      <Link to="/rating" className="d-flex align-items-center mb-3 text-dark">
         Ratings {ratings.length}
         <FaChevronRight />
-      </a>
+      </Link>
 
       <Row className="g-3">
         {ratings.slice(0, 2).map((rating) => (
           <Col key={rating.tconst} md={6}>
-            <a href={`/title/${rating.tconst}`}>
+            <Link
+              to={`/title/${rating.tconst}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <Card>
                 <Card.Img
                   variant="top"
@@ -41,7 +45,7 @@ const Rating = () => {
                   </Card.Text>
                 </Card.Body>
               </Card>
-            </a>
+            </Link>
           </Col>
         ))}
       </Row>
