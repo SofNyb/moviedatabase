@@ -1,4 +1,4 @@
-import { Container, Form, Nav, Navbar, Row, Col } from "react-bootstrap";
+import { Container, Nav, Navbar, Row, Col } from "react-bootstrap";
 import Search from "./Search";
 import User from "./User";
 import Menu from "./Menu";
@@ -14,13 +14,11 @@ const Navigation = () => {
           <Nav className="mx-auto">
             <Menu />
 
-            <Form className="d-flex">
-              <Row>
-                <Col xs="auto">
-                  <Search />
-                </Col>
-              </Row>
-            </Form>
+            <Row>
+              <Col xs="auto">
+                <Search />
+              </Col>
+            </Row>
 
             <Nav.Link href="/bookmarks">Bookmarks</Nav.Link>
             <User />
