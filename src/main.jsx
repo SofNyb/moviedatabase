@@ -20,13 +20,12 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+
+        <Route path="profile/:id" element={<UserPage />} />
         <Route path="profile" element={<Profile />} />
         <Route path="bookmark" element={<BookmarkList isPreview={false} />} />
         <Route path="rating" element={<RatingList isPreview={false} />} />
-
-        <Route path="profile/:id" element={<UserPage />}>
-          <Route path="searchhistory" />
-        </Route>
+        <Route path="searchhistory" element={<div>Hej</div>} />
 
         <Route path="title" />
         <Route path="title/:tconst">
