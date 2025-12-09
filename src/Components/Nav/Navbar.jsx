@@ -14,7 +14,7 @@ const Navigation = () => {
           <Nav className="mx-auto">
             <Menu />
 
-            <Form inline>
+            <Form className="d-flex">
               <Row>
                 <Col xs="auto">
                   <Search />
