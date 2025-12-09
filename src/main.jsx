@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar.jsx";
+import Names from "./Components/Names.jsx";
+import NameNconst from "./Components/NameNconst.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -30,8 +32,8 @@ createRoot(document.getElementById("root")).render(
           <Route path="principals" />
         </Route>
 
-        <Route path="name" />
-        <Route path="name/:nconst">
+        <Route path="name" element={<Names />} />
+        <Route path="name/:nconst" element={<NameNconst />} >
           <Route path="knownfor" />
           <Route path="profession" />
           <Route path="role" />
