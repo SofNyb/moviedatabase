@@ -1,17 +1,23 @@
 // src/pages/Names/NamesList.jsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { nameService } from "../../services/nameService";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import Pagination from "../../Components/Pagination";
 import ActorPhoto from "../../Components/ActorPhoto";
 
 export default function NamesList() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [names, setNames] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [detailedNames, setDetailedNames] = useState({});
+
+  const page = parseInt(searchParams.get("page") || "0", 10);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage.toString() });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -114,7 +120,7 @@ export default function NamesList() {
       <Pagination
         totalPages={totalPages}
         currentPage={page}
-        onPageChange={setPage}
+        onPageChange={handlePageChange}
       />
     </div>
   );
