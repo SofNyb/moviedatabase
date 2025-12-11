@@ -69,7 +69,10 @@ export default function NamesList() {
           const nconst = person.url?.split("/").pop() || person.nconst;
           const details = detailedNames[nconst];
           const birthYear = details?.birthYear;
-          const professionName = details?.professions?.[0]?.name;
+          const profession = details?.professions?.[0]?.name;
+          const professionName = profession
+            ? profession.charAt(0).toUpperCase() + profession.slice(1)
+            : null;
 
           return (
             <div className="col" key={nconst}>
