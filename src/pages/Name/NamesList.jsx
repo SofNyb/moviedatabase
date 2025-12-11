@@ -11,14 +11,31 @@ export default function NamesList() {
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [detailedNames, setDetailedNames] = useState({});
 
   useEffect(() => {
     setLoading(true);
     nameService
       .getNames(page, 20)
-      .then((data) => {
-        setNames(data.items || []);
+      .then(async (data) => {
+        const items = data.items || [];
+        setNames(items);
         setTotalPages(data.numberOfPages || 1);
+
+        // Fetch detailed info for each person
+        const details = {};
+        await Promise.all(
+          items.map(async (person) => {
+            try {
+              const nconst = person.url?.split("/").pop() || person.nconst;
+              const fullData = await nameService.getNameById(nconst);
+              details[nconst] = fullData;
+            } catch (error) {
+              console.error("Error fetching person details:", error);
+            }
+          })
+        );
+        setDetailedNames(details);
       })
       .catch(() => {
         setNames([]);
@@ -44,7 +61,9 @@ export default function NamesList() {
       <div className="row row-cols-1 row-cols-md-2 g-4">
         {names.map((person) => {
           const nconst = person.url?.split("/").pop() || person.nconst;
-          const year = person.birthYear;
+          const details = detailedNames[nconst];
+          const birthYear = details?.birthYear;
+          const profession = details?.professions?.[0];
 
           return (
             <div className="col" key={nconst}>
@@ -68,11 +87,13 @@ export default function NamesList() {
 
                   <div className="p-4 flex-grow-1 d-flex flex-column justify-content-center">
                     <h5 className="mb-1 fw-bold">{person.name}</h5>
-                    <p className="mb-0 text-muted small">
-                      {year ? `Born ${year}` : "Birth year unknown"}
-                      {person.professions?.length > 0 &&
-                        ` • ${person.professions[0].name}`}
-                    </p>
+                    {details && (
+                      <p className="mb-0 text-muted small">
+                        {birthYear ? `Born ${birthYear}` : "Birth year unknown"}
+                        {birthYear && profession && " • "}
+                        {profession}
+                      </p>
+                    )}
                   </div>
                 </div>
               </Link>
