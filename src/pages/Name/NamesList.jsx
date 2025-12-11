@@ -28,8 +28,14 @@ export default function NamesList() {
           items.map(async (person) => {
             try {
               const nconst = person.url?.split("/").pop() || person.nconst;
-              const fullData = await nameService.getNameById(nconst);
-              details[nconst] = fullData;
+              const [fullData, professions] = await Promise.all([
+                nameService.getNameById(nconst),
+                nameService.getProfessions(nconst),
+              ]);
+              details[nconst] = {
+                ...fullData,
+                professions: professions,
+              };
             } catch (error) {
               console.error("Error fetching person details:", error);
             }
@@ -63,7 +69,7 @@ export default function NamesList() {
           const nconst = person.url?.split("/").pop() || person.nconst;
           const details = detailedNames[nconst];
           const birthYear = details?.birthYear;
-          const profession = details?.professions?.[0];
+          const professionName = details?.professions?.[0]?.name;
 
           return (
             <div className="col" key={nconst}>
@@ -90,8 +96,8 @@ export default function NamesList() {
                     {details && (
                       <p className="mb-0 text-muted small">
                         {birthYear ? `Born ${birthYear}` : "Birth year unknown"}
-                        {birthYear && profession && " • "}
-                        {profession}
+                        {birthYear && professionName && " • "}
+                        {professionName}
                       </p>
                     )}
                   </div>
