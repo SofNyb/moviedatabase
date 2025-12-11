@@ -51,7 +51,7 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
               lg={isPreview ? 6 : 3}
             >
               <ItemCard
-                href={`/title/${bookmark.tconst}`}
+                href={`/titles/${bookmark.tconst}`}
                 imageUrl={bookmark.titleData?.poster}
                 title={bookmark.titleData?.primaryTitle || bookmark.tconst}
                 subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
@@ -67,7 +67,7 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
               lg={isPreview ? 6 : 3}
             >
               <ItemCard
-                href={`/name/${bookmark.nconst}`}
+                href={`/names/${bookmark.nconst}`}
                 imageUrl="https://via.placeholder.com/300x450?text=Actor"
                 title={bookmark.nameData?.name || bookmark.nconst}
                 subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}

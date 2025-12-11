@@ -39,7 +39,7 @@ const RatingList = ({ isPreview = false, limit = null }) => {
               lg={isPreview ? 6 : 3}
             >
               <ItemCard
-                href={`/title/${rating.tconst}`}
+                href={`/titles/${rating.tconst}`}
                 imageUrl={rating.titleData?.poster}
                 title={rating.titleData?.primaryTitle || rating.tconst}
                 badge={{
