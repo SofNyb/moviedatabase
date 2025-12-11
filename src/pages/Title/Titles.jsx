@@ -5,6 +5,7 @@ import { titleService } from "../../services/titleService";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import Poster from "../../Components/Poster";
 import Pagination from "../../Components/Pagination";
+import { ExtractYear } from "../../Components/FormatDate";
 
 export default function Titles() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,7 +54,7 @@ export default function Titles() {
           <div className="row row-cols-1 row-cols-md-2 g-4">
             {titles.map((title) => {
               const tconst = title.tconst || title.url?.split("/").pop();
-              const year = title.startYear || title.releaseDate?.slice(0, 4);
+              const year = ExtractYear(title.startYear || title.releaseDate);
 
               return (
                 <div className="col" key={tconst}>
@@ -76,7 +77,7 @@ export default function Titles() {
                       <div className="p-4 d-flex flex-column justify-content-center">
                         <h5 className="fw-bold mb-1">{title.primaryTitle}</h5>
                         <p className="text-muted mb-0">
-                          {year || "????"} • {title.titleType}
+                          {year || "Unknown release date"} • {title.titleType}
                         </p>
                       </div>
                     </div>

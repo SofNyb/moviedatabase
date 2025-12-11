@@ -21,4 +21,18 @@ const FormatDate = (dateString) => {
   return `${month} ${day}${suffix(day)}, ${year}`;
 };
 
+export const ExtractYear = (dateValue) => {
+  if (!dateValue) return null;
+
+  const str = String(dateValue);
+
+  // Handle "31 Jul 2004" format - take last part
+  if (str.includes(" ")) {
+    return str.split(" ").pop();
+  }
+
+  // Handle "2004-05-15" or "2004" format - take first part
+  return str.split("-")[0];
+};
+
 export default FormatDate;
