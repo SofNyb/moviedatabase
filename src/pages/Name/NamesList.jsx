@@ -38,7 +38,7 @@ export default function NamesList() {
   }
 
   return (
-    <div className="container py-5">
+    <div className="container py-5 text-start">
       <h1 className="h2 mb-5 text-center">All Names</h1>
 
       <div className="d-flex flex-column gap-4">
