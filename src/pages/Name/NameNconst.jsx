@@ -1,8 +1,8 @@
 import { useName } from "../../hooks/useName";
 import { useParams } from "react-router-dom";
-import ImagesFor from "../../components/ImagesFor";
-import KnownFor from "../../components/KnownFor";
-import NameTitles from "../../components/NameTitles";
+import ImagesFor from "../../Components/ImagesFor";
+import KnownFor from "../../Components/KnownFor";
+import NameTitles from "../../Components/NameTitles";
 
 export default function NameNconst() {
   const { nconst } = useParams();
@@ -39,7 +39,9 @@ export default function NameNconst() {
                 {data.nameRating && (
                   <div className="col-auto">
                     <strong>IMDb rating</strong>
-                    <div className="text-warning fw-bold fs-4">★ {data.nameRating}</div>
+                    <div className="text-warning fw-bold fs-4">
+                      ★ {data.nameRating}
+                    </div>
                   </div>
                 )}
                 <div className="col-auto">

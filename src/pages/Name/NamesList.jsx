@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { nameService } from "../../services/nameService";
-import LoadingSpinner from "../../components/LoadingSpinner";
-import Pagination from "../../components/Pagination";
-import ActorPhoto from "../../components/ActorPhoto"; 
+import LoadingSpinner from "../../Components/LoadingSpinner";
+import Pagination from "../../Components/Pagination";
+import ActorPhoto from "../../Components/ActorPhoto";
 
 export default function NamesList() {
   const [names, setNames] = useState([]);
@@ -54,19 +54,24 @@ export default function NamesList() {
             >
               <div className="d-flex shadow-sm rounded overflow-hidden bg-white hover-shadow transition">
                 {/* This now shows real photos even when person.poster is null */}
-            <div style={{ width: 140, height: 207, flexShrink: 0 }}>
-            <ActorPhoto
-            nconst={nconst}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            className="rounded-start"
-            />
-            </div>
+                <div style={{ width: 140, height: 207, flexShrink: 0 }}>
+                  <ActorPhoto
+                    nconst={nconst}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    className="rounded-start"
+                  />
+                </div>
 
-            <div className="p-4 flex-grow-1 d-flex flex-column justify-content-center">
+                <div className="p-4 flex-grow-1 d-flex flex-column justify-content-center">
                   <h5 className="mb-1 fw-bold">{person.name}</h5>
                   <p className="mb-0 text-muted small">
                     {year ? `Born ${year}` : "Birth year unknown"}
-                    {person.professions?.length > 0 && ` • ${person.professions[0].name}`}
+                    {person.professions?.length > 0 &&
+                      ` • ${person.professions[0].name}`}
                   </p>
                 </div>
               </div>

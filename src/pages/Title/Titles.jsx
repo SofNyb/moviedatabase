@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { titleService } from "../../services/titleService";
-import LoadingSpinner from "../../components/LoadingSpinner";
-import Poster from "../../components/Poster";
-import Pagination from "../../components/Pagination";
+import LoadingSpinner from "../../Components/LoadingSpinner";
+import Poster from "../../Components/Poster";
+import Pagination from "../../Components/Pagination";
 
 export default function Titles() {
   const [titles, setTitles] = useState([]);
@@ -60,7 +60,11 @@ export default function Titles() {
                       <Poster
                         src={title.poster}
                         alt={title.primaryTitle}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
                       />
                     </div>
                     <div className="p-4 d-flex flex-column justify-content-center">
