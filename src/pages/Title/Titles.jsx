@@ -44,37 +44,38 @@ export default function Titles() {
         <div className="text-center text-muted py-5">No titles found.</div>
       ) : (
         <>
-          <div className="d-flex flex-column gap-4">
+          <div className="row row-cols-1 row-cols-md-2 g-4">
             {titles.map((title) => {
               const tconst = title.tconst || title.url?.split("/").pop();
               const year = title.startYear || title.releaseDate?.slice(0, 4);
 
               return (
-                <Link
-                  key={tconst}
-                  to={`/titles/${tconst}`}
-                  className="text-decoration-none text-dark"
-                >
-                  <div className="d-flex shadow-sm rounded overflow-hidden bg-white">
-                    <div style={{ width: 140, height: 207, flexShrink: 0 }}>
-                      <Poster
-                        src={title.poster}
-                        alt={title.primaryTitle}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
+                <div className="col" key={tconst}>
+                  <Link
+                    to={`/titles/${tconst}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    <div className="d-flex shadow-sm rounded overflow-hidden bg-white h-100">
+                      <div style={{ width: 140, height: 207, flexShrink: 0 }}>
+                        <Poster
+                          src={title.poster}
+                          alt={title.primaryTitle}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </div>
+                      <div className="p-4 d-flex flex-column justify-content-center">
+                        <h5 className="fw-bold mb-1">{title.primaryTitle}</h5>
+                        <p className="text-muted mb-0">
+                          {year || "????"} • {title.titleType}
+                        </p>
+                      </div>
                     </div>
-                    <div className="p-4 d-flex flex-column justify-content-center">
-                      <h5 className="fw-bold mb-1">{title.primaryTitle}</h5>
-                      <p className="text-muted mb-0">
-                        {year || "????"} • {title.titleType}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               );
             })}
           </div>
