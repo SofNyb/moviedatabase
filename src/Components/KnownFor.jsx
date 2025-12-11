@@ -1,9 +1,9 @@
-// src/components/KnownFor.jsx
+// src/Components/KnownFor.jsx
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { nameService } from "../services/nameService";        // correct path
-import LoadingSpinner from "./LoadingSpinner";               // your shared spinner
-import { Spinner } from "react-bootstrap";                     // already imported via LoadingSpinner
+import { nameService } from "../services/nameService";
+import LoadingSpinner from "./LoadingSpinner";
+import { Spinner } from "react-bootstrap";
 
 export default function KnownFor({ imdbId }) {
   const [titles, setTitles] = useState([]);
@@ -69,7 +69,9 @@ export default function KnownFor({ imdbId }) {
                 style={{ height: "220px", objectFit: "cover" }}
               />
               <div className="p-2 bg-white">
-                <div className="fw-bold small text-truncate">{title.primaryTitle}</div>
+                <div className="fw-bold small text-truncate">
+                  {title.primaryTitle}
+                </div>
                 {year && <div className="text-muted small">{year}</div>}
               </div>
             </Link>
