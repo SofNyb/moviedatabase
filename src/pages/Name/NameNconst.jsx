@@ -1,8 +1,8 @@
-import { useName } from "../hooks/useName";
+import { useName } from "../../hooks/useName";
 import { useParams } from "react-router-dom";
-import ImagesFor from "../components/ImagesFor";
-import KnownFor from "../components/KnownFor";
-import NameTitles from "../components/NameTitles";
+import ImagesFor from "../../components/ImagesFor";
+import KnownFor from "../../components/KnownFor";
+import NameTitles from "../../components/NameTitles";
 
 export default function NameNconst() {
   const { nconst } = useParams();

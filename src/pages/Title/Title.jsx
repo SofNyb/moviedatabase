@@ -1,19 +1,47 @@
+// src/pages/Title/Title.jsx
 import { useParams, Link } from "react-router-dom";
-import { useTitle } from "../hooks/useTitle";
-import Cast from "./Cast";
-import Genre from "./Genre";
-import Episode from "./Episode";
-import Award from "./Award";
-import Akas from "./Akas";
-import Principals from "./Principals";
-import OverallRating from "./OverallRating";
+import { useState, useEffect } from "react";
+import { titleService } from "../../services/titleService";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import Poster from "../../components/Poster";
+import Cast from "../../components/Cast";
+import Genre from "../../components/Genre";
+import Episode from "../../components/Episode";
+import Award from "../../components/Award";
+import Akas from "../../components/Akas";
+import OverallRating from "../../components/OverallRating";
+import BookmarkButton from "../../components/BookmarkButton";
+import RateButton from "../../components/RateButton";
 
-function Title() {
+export default function Title() {
   const { tconst } = useParams();
-  const { title, loading, averageRating } = useTitle(tconst);
+  const [title, setTitle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (loading) return <div className="container my-5 text-center">Loading...</div>;
-  if (!title) return <div className="container my-5 text-center">Title not found</div>;
+  useEffect(() => {
+    if (!tconst) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    titleService
+      .getTitleById(tconst)
+      .then((data) => setTitle(data))
+      .catch((err) => {
+        console.error("Failed to load title:", err);
+        setTitle(null);
+      })
+      .finally(() => setLoading(false));
+  }, [tconst]);
+
+  if (loading) return <LoadingSpinner />;
+  if (!title) return <div className="container py-5 text-center">Title not found</div>;
+
+  const year = title.startYear || title.releaseDate?.slice(0, 4);
+  const averageRating = title.overallRating
+    ? (title.overallRating.rating / title.overallRating.votes).toFixed(1)
+    : "N/A";
 
   return (
     <div className="container text-start my-4">
@@ -28,8 +56,8 @@ function Title() {
 
           <div className="d-flex align-items-center gap-3 my-3">
             <span className="fw-bold">Rating ⭐ {averageRating}</span>
-            <button className="btn btn-sm btn-outline-primary">Rate yourself</button>
-            <button className="btn btn-sm btn-outline-secondary">Bookmark</button>
+          <RateButton tconst={tconst} />
+          <BookmarkButton tconst={tconst} />
           </div>
 
           <p className="mb-2">
@@ -40,7 +68,6 @@ function Title() {
           {title.plot && <p className="my-4 lead">{title.plot}</p>}
 
           <Cast />
-          <Principals />
           <Genre />
           <Episode />
           <Award />
@@ -62,5 +89,3 @@ function Title() {
     </div>
   );
 }
-
-export default Title;

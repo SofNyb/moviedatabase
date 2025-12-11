@@ -1,28 +1,81 @@
-// KnownFor.jsx
-import { useKnownFor } from "../hooks/useKnownFor";
-import { Link } from 'react-router-dom';
+// src/components/KnownFor.jsx
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { nameService } from "../services/nameService";        // correct path
+import LoadingSpinner from "./LoadingSpinner";               // your shared spinner
+import { Spinner } from "react-bootstrap";                     // already imported via LoadingSpinner
 
 export default function KnownFor({ imdbId }) {
-  const { data, loading, error } = useKnownFor(imdbId);
+  const [titles, setTitles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  if (loading) return <p>Loading known-for...</p>;
-  if (error)   return <p>{error}</p>;
-  if (!data?.length) return <p>Not known for anything</p>;
+  useEffect(() => {
+    if (!imdbId) {
+      setLoading(false);
+      return;
+    }
+
+    let isCancelled = false;
+    setLoading(true);
+
+    nameService
+      .getKnownFor(imdbId)
+      .then((data) => {
+        if (!isCancelled) {
+          setTitles(Array.isArray(data) ? data : []);
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) setTitles([]);
+      })
+      .finally(() => {
+        if (!isCancelled) setLoading(false);
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [imdbId]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (titles.length === 0) {
+    return (
+      <div className="text-center py-5 text-muted">
+        <p className="mb-1">No "Known For" titles</p>
+        <small>This person isn't associated with major titles yet.</small>
+      </div>
+    );
+  }
 
   return (
-    <section class="container">
-      {data.map(title => (
-          <Link to={`/title/${title.url.split("/").pop()}`}>
-        <div class="border row m-4" key={title.url}>
-            <img class="col-4 p-0" width="80" src={title.poster} alt="" />
-        <div class="col">
-            {title.primaryTitle}
+    <div className="row g-3 g-md-4">
+      {titles.map((title) => {
+        const tconst = title.url?.split("/").pop();
+        const year = title.releaseDate?.split("-")[0];
 
-          <p>Release: {title.releaseDate}</p>
-        </div>
-        </div>
-          </Link>
-      ))}
-    </section>
+        return (
+          <div key={title.url} className="col-6 col-sm-4 col-md-3 col-lg-2">
+            <Link
+              to={`/titles/${tconst}`}
+              className="text-decoration-none text-dark d-block rounded overflow-hidden shadow-sm hover-shadow transition"
+            >
+              <img
+                src={title.poster || "/poster-placeholder.jpg"}
+                alt={title.primaryTitle}
+                className="w-100"
+                style={{ height: "220px", objectFit: "cover" }}
+              />
+              <div className="p-2 bg-white">
+                <div className="fw-bold small text-truncate">{title.primaryTitle}</div>
+                {year && <div className="text-muted small">{year}</div>}
+              </div>
+            </Link>
+          </div>
+        );
+      })}
+    </div>
   );
 }

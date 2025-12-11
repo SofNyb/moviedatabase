@@ -1,5 +1,6 @@
+// src/hooks/useName.js
 import { useState, useEffect } from "react";
-import { getName, getNameProfession } from "../api/nameApi";
+import { nameService } from "../services/nameService";
 
 export function useName(nconst) {
   const [data, setData] = useState(null);
@@ -7,31 +8,41 @@ export function useName(nconst) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let cancelled = false;
+    if (!nconst) {
+      setData(null);
+      setLoading(false);
+      return;
+    }
 
+    let cancelled = false;
     setLoading(true);
+    setError(null);
 
     Promise.all([
-    getName(nconst),
-    getNameProfession(nconst)
+      nameService.getNameById(nconst),
+      nameService.getProfessions(nconst),
     ])
-      .then(([nameResult, nameProfessionResult]) => {
+      .then(([nameResult, professionsResult]) => {
         if (!cancelled) {
           setData({
             ...nameResult,
-            professions: nameProfessionResult
+            professions: professionsResult || [],
           });
-          setError(null);
         }
       })
       .catch((err) => {
-        if (!cancelled) setError(err.message);
+        if (!cancelled) {
+          setError(err.message || "Failed to load person");
+          setData(null);
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
 
-    return () => { cancelled = true; }; // cleanup on unmount or nconst change
+    return () => {
+      cancelled = true;
+    };
   }, [nconst]);
 
   return { data, loading, error };

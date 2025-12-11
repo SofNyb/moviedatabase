@@ -1,32 +1,95 @@
-import { useAllTitles } from "../hooks/useAllTitles";
-import { Link } from 'react-router-dom';
+// src/components/NameTitles.jsx
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { nameService } from "../services/nameService";
+import LoadingSpinner from "./LoadingSpinner";
+import Poster from "./Poster";
+
+const POSTER_WIDTH = 182;
+const POSTER_HEIGHT = 268;
 
 export default function NameTitles({ imdbId }) {
-  const { data, loading, error } = useAllTitles(imdbId);
+  const [titles, setTitles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  if (loading) return <p>Loading filmography...</p>;
-  if (error) return <p>{error}</p>;
-  if (!data?.length) return <p>No titles found</p>;
+  useEffect(() => {
+    if (!imdbId) {
+      setLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+
+    nameService.getAllTitlesByPerson(imdbId)
+      .then(data => !cancelled && setTitles(Array.isArray(data) ? data : []))
+      .catch(() => !cancelled && setTitles([]))
+      .finally(() => !cancelled && setLoading(false));
+
+    return () => { cancelled = true };
+  }, [imdbId]);
+
+  if (loading) return <LoadingSpinner />;
+
+  if (titles.length === 0) {
+    return (
+      <div className="text-center py-5 text-muted">
+        <p className="mb-1">No credits found</p>
+        <small>This person has no titles in our database yet.</small>
+      </div>
+    );
+  }
 
   return (
-    <section className="container">
-      {data.map(title => (
-        <Link key={title.url} to={`/title/${title.url.split("/").pop()}`}>
-          <div className="border row m-4">
-            {title.poster ? (
-              <img style={{width: "182px", height: "270px"}} className="col-4 p-0" width="80" src={title.poster} alt={title.primaryTitle} />
-            ) : (
-              <div className="col-4 bg-light d-flex align-items-center justify-content-center" style={{width: "182px", height: "270px"}}>
-                <span className="text-muted">No poster</span>
+    <div className="d-flex flex-column gap-3">
+      {titles.map((title) => {
+        const tconst = title.url?.split("/").pop();
+        const year = title.releaseDate?.split("-")[0];
+
+        return (
+          <Link
+            key={title.url}
+            to={`/titles/${tconst}`}
+            className="text-decoration-none text-dark"
+          >
+            <div className="d-flex shadow-sm rounded overflow-hidden bg-white hover-shadow transition">
+              {/* Fixed-size poster */}
+              <div
+                style={{
+                  width: POSTER_WIDTH,
+                  height: POSTER_HEIGHT,
+                  flexShrink: 0,
+                  backgroundColor: "#f8f9fa",
+                }}
+              >
+                <Poster
+                  src={title.poster}
+                  alt={title.primaryTitle}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
               </div>
-            )}
-            <div className="col">
-              <strong>{title.primaryTitle}</strong>
-              <p className="mb-0">{title.titleType} • {title.releaseDate}</p>
+
+              {/* Text content — plenty of space */}
+              <div className="p-4 d-flex flex-column justify-content-center flex-grow-1">
+                <h6 className="mb-1 fw-bold">{title.primaryTitle}</h6>
+                <p className="mb-1 text-muted small">
+                  {title.titleType}
+                  {year && ` • ${year}`}
+                </p>
+                {title.characters && (
+                  <p className="mb-0 text-primary small fst-italic">
+                    as {title.characters}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        </Link>
-      ))}
-    </section>
+          </Link>
+        );
+      })}
+    </div>
   );
 }
