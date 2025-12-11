@@ -1,16 +1,22 @@
 // src/pages/Titles/Titles.jsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { titleService } from "../../services/titleService";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import Poster from "../../Components/Poster";
 import Pagination from "../../Components/Pagination";
 
 export default function Titles() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [titles, setTitles] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const currentPage = parseInt(searchParams.get("page") || "0", 10);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage.toString() });
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -23,7 +29,7 @@ export default function Titles() {
         setTotalPages(data.numberOfPages || 1);
       })
       .catch((err) => {
-        if (!err.name === "CanceledError") {
+        if (!err.name === "CancelledError") {
           console.error(err);
           setTitles([]);
           setTotalPages(1);
@@ -83,7 +89,7 @@ export default function Titles() {
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}
-            onPageChange={setCurrentPage}
+            onPageChange={handlePageChange}
           />
         </>
       )}
