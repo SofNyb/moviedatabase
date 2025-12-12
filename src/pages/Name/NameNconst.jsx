@@ -14,7 +14,7 @@ export default function NameNconst() {
   const imdbId = data.url.split("/").pop();
 
   return (
-    <div className="container-fluid" style={{ backgroundColor: "#f5f5f1" }}>
+    <div className="container-fluid">
       <div className="container">
         {/* Hero section: poster + name + quick facts side by side */}
         <div className="row g-4 align-items-start">
@@ -26,7 +26,6 @@ export default function NameNconst() {
 
           <div className="col-lg-9">
             <div className="bg-white rounded-3 shadow-sm p-4">
-              {/* Name and basic info right next to the poster */}
               <h1 className="display-5 fw-bold mb-1">{data.name}</h1>
               <div className="text-muted mb-3 fs-5">
                 {data.birthYear && `${data.birthYear}`}
@@ -34,8 +33,7 @@ export default function NameNconst() {
                 {data.deathYear && `${data.deathYear}`}
               </div>
 
-              {/* Quick facts in a single row */}
-              <div className="row g-4 mb-4">
+              <div className="row g-4 mb-4 align-items-start">
                 {data.nameRating && (
                   <div className="col-auto">
                     <strong>IMDb rating</strong>
@@ -47,12 +45,24 @@ export default function NameNconst() {
                 <div className="col-auto">
                   <strong>Known for</strong>
                   <div className="mt-1">
-                    {data.professions.map((prof, i) => (
-                      <span key={i}>
-                        {prof.name}
-                        {i < data.professions.length - 1 && " · "}
-                      </span>
-                    ))}
+                    {data.professions.map((prof, i) => {
+                      const formattedName = prof.name
+                        .replace(/_/g, " ")
+                        .split(" ")
+                        .map(
+                          (word) =>
+                            word.charAt(0).toUpperCase() +
+                            word.slice(1).toLowerCase()
+                        )
+                        .join(" ");
+
+                      return (
+                        <span key={i}>
+                          {formattedName}
+                          {i < data.professions.length - 1 && " · "}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
