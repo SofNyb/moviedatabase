@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ImagesFor from "../../Components/ImagesFor";
 import KnownFor from "../../Components/KnownFor";
 import NameTitles from "../../Components/NameTitles";
+import BookmarkButton from "../../Components/BookmarkButton";
 
 export default function NameNconst() {
   const { nconst } = useParams();
@@ -34,6 +35,7 @@ export default function NameNconst() {
                 {data.deathYear && `${data.deathYear}`}
               </div>
 
+            <BookmarkButton nconst={nconst} />
               {/* Quick facts in a single row */}
               <div className="row g-4 mb-4">
                 {data.nameRating && (

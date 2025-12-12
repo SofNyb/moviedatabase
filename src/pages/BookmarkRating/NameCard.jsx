@@ -1,16 +1,12 @@
+// src/components/NameCard.jsx
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const ItemCard = ({ href, imageUrl, title, subtitle, badge }) => {
+const NameCard = ({ href, customImage, title, subtitle, badge }) => {
   return (
     <Link to={href} style={{ textDecoration: "none", color: "inherit" }}>
       <Card className="h-100 item-card">
-        <Card.Img
-          variant="top"
-          src={imageUrl || "https://via.placeholder.com/300x450?text=No+Image"}
-          style={{ height: "400px", objectFit: "cover" }}
-          alt={title}
-        />
+        {customImage}
         <Card.Body>
           <Card.Title className="text-truncate">{title}</Card.Title>
           {badge && (
@@ -19,7 +15,9 @@ const ItemCard = ({ href, imageUrl, title, subtitle, badge }) => {
             </Card.Text>
           )}
           {subtitle && (
-            <Card.Text className="text-muted small">{subtitle}</Card.Text>
+            <Card.Text className="text-muted small">{subtitle}>
+              {subtitle}
+            </Card.Text>
           )}
         </Card.Body>
       </Card>
@@ -27,4 +25,5 @@ const ItemCard = ({ href, imageUrl, title, subtitle, badge }) => {
   );
 };
 
-export default ItemCard;
+export default NameCard;
+

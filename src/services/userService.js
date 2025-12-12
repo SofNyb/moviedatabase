@@ -28,33 +28,42 @@ export const userService = {
 
   // Add title bookmark
   addTitleBookmark: async (tconst) => {
+  const user = await userService.getCurrentUserProfile();   // works in app
     const response = await api.post("/api/functions/bookmarks/title", {
       tconst,
+      UserId: user.url.split("/").pop()
     });
     return response.data;
   },
 
   // Add name bookmark
   addNameBookmark: async (nconst) => {
+  const user = await userService.getCurrentUserProfile();   // works in app
     const response = await api.post("/api/functions/bookmarks/name", {
       nconst,
+      UserId: user.url.split("/").pop()
     });
     return response.data;
   },
 
   // Remove title bookmark
   removeTitleBookmark: async (tconst) => {
+  const user = await userService.getCurrentUserProfile();
     const response = await api.delete("/api/functions/bookmarks/title", {
-      data: { tconst },
+      tconst,
+      UserId: user.url.split("/").pop()
     });
     return response.data;
   },
 
   // Remove name bookmark
   removeNameBookmark: async (nconst) => {
+  const user = await userService.getCurrentUserProfile();   // works in app
     const response = await api.delete("/api/functions/bookmarks/name", {
-      data: { nconst },
+      nconst,
+      UserId: user.url.split("/").pop()
     });
+    console.log(response)
     return response.data;
   },
 
@@ -68,11 +77,9 @@ export const userService = {
  rateTitle: async (tconst, rating) => {
   const user = await userService.getCurrentUserProfile();   // works in app
   await api.post("/api/functions/rate", {
-    request: {
-      tconst,
-      personId: user.id,          // exact field name your C# expects
-      rating: parseInt(rating, 10)
-    }
+      Rating: parseInt(rating, 10),
+      Tconst: tconst,
+      PersonId: user.url.split("/").pop()
   });
 },
 

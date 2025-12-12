@@ -3,24 +3,43 @@ import { useState, useEffect } from "react";
 import { userService } from "../services/userService";
 
 export default function RateButton({ tconst }) {
-  const [userRating, setUserRating] = useState(null);
+  const [userRating, setUserRating] = useState(null);   // null = not loaded, number = loaded
   const [saving, setSaving] = useState(false);
 
-  // Load current rating once
   useEffect(() => {
+    let cancelled = false;
+
+
     userService.getRatings().then(ratings => {
-      const found = ratings.find(r => r.tconst === tconst);
-      if (found) setUserRating(found.rating);
-    }).catch(() => {});
+      if (cancelled) return;
+      const rating = ratings.find(r => r.tconst === tconst);
+      console.log({rating})
+      setUserRating(rating ? rating.ratingValue : null);
+    }).catch(() => {
+      if (!cancelled) setUserRating(null);
+    });
+
+    return () => { cancelled = true; };
   }, [tconst]);
 
-  const rate = async (value) => {
+  const rate = async (newRating) => {
+    if (saving) return;
+
     setSaving(true);
+    const previous = userRating;
+    setUserRating(newRating);
+
     try {
-      await userService.rateTitle(null, tconst, value); // personId = null → taken from token
-      setUserRating(value);
+      await userService.rateTitle(tconst, newRating);
+
     } catch (e) {
-      alert("Failed to save rating");
+      setUserRating(previous); 
+      const msg = e.response?.data?.title ||
+                  e.response?.data ||
+                  e.message ||
+                  "Unknown error";
+      alert("Rating failed: " + msg);
+      console.error(e);
     } finally {
       setSaving(false);
     }
@@ -41,7 +60,9 @@ export default function RateButton({ tconst }) {
           {n}
         </button>
       ))}
-      {userRating && <small className="ms-2 text-muted">Your rating: {userRating}</small>}
+      {userRating !== null && (
+        <small className="ms-2 text-muted">Your rating: {userRating}</small>
+      )}
     </div>
   );
 }

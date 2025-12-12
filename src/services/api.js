@@ -52,7 +52,7 @@ const api = async (inputUrl, options = {}) => {
 api.get = (url, config = {}) => api(url, { ...config, method: "GET" });
 api.post = (url, body, config = {}) => api(url, { ...config, method: "POST", body: JSON.stringify(body) });
 api.put = (url, body, config = {}) => api(url, { ...config, method: "PUT", body: JSON.stringify(body) });
-api.delete = (url, config = {}) => api(url, { ...config, method: "DELETE" });
+api.delete = (url, body, config = {}) => api(url, { ...config, method: "DELETE", body: JSON.stringify(body) });
 api.patch = (url, body, config = {}) => api(url, { ...config, method: "PATCH", body: JSON.stringify(body) });
 
 export default api;

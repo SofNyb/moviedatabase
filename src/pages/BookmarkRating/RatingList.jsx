@@ -2,7 +2,7 @@ import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useRatings } from "../../hooks/useRatings";
-import ItemCard from "./ItemCard";
+import TitleCard from "./TitleCard";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import EmptyState from "./EmptyState";
 import FormatDate from "../../Components/FormatDate";
@@ -38,8 +38,8 @@ const RatingList = ({ isPreview = false, limit = null }) => {
               md={isPreview ? 6 : 4}
               lg={isPreview ? 6 : 3}
             >
-              <ItemCard
-                href={`/title/${rating.tconst}`}
+              <TitleCard
+                href={`/titles/${rating.tconst}`}
                 imageUrl={rating.titleData?.poster}
                 title={rating.titleData?.primaryTitle || rating.tconst}
                 badge={{

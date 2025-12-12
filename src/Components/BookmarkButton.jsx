@@ -2,57 +2,80 @@
 import { useState, useEffect } from "react";
 import { userService } from "../services/userService";
 
-export default function BookmarkButton({ tconst }) {
+export default function BookmarkButton({ tconst, nconst }) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const isTitle = !!tconst;
+  const isPerson = !!nconst;
+  const id = tconst || nconst;
+
   // Load current bookmark status
   const loadStatus = async () => {
-    {
     try {
-      const bookmarks = await userService.getTitleBookmarks();
-      const exists = bookmarks.some(b => b.tconst === tconst);
+      let bookmarks;
+      if (isTitle) {
+        bookmarks = await userService.getTitleBookmarks();
+      } else if (isPerson) {
+        bookmarks = await userService.getNameBookmarks(); // ← you'll add this
+      } else {
+        return;
+      }
+
+      const exists = bookmarks.some(b => 
+        isTitle ? b.tconst === tconst : b.nconst === nconst
+      );
       setIsBookmarked(exists);
     } catch (e) {
       setIsBookmarked(false);
     } finally {
       setLoading(false);
     }
-      }};
+  };
 
   useEffect(() => {
     loadStatus();
-  }, [tconst]);
+  }, [tconst, nconst]);
 
   const toggleBookmark = async () => {
+    if (loading) return;
     setLoading(true);
+
     try {
       if (isBookmarked) {
-        await userService.removeTitleBookmark(tconst);   // no userId
+        if (isTitle) {
+          await userService.removeTitleBookmark(tconst);
+        } else {
+          await userService.removeNameBookmark(nconst);
+        }
       } else {
-        await userService.addTitleBookmark(tconst);       // no userId
+        if (isTitle) {
+          await userService.addTitleBookmark(tconst);
+        } else {
+          await userService.addNameBookmark(nconst);
+        }
       }
-      // Success → just flip the UI (optimistic update)
-      setIsBookmarked(!isBookmarked);
+
+      // Optimistic toggle
+      setIsBookmarked(prev => !prev);
     } catch (err) {
       alert("Failed to update bookmark");
-      // On error, re-sync with server
-      loadStatus();
+      loadStatus(); // revert on error
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) return null;
+
   return (
     <button
       onClick={toggleBookmark}
       disabled={loading}
-      className={`btn btn-sm ${
-        isBookmarked ? "btn-success" : "btn-outline-success"
-      }`}
+      className={`btn btn-sm ${isBookmarked ? "btn-success" : "btn-outline-success"}`}
+      title={isPerson ? "Bookmark this person" : "Bookmark this title"}
     >
-      {isBookmarked ? "Bookmarked" : "Bookmark"}
+      {isBookmarked ? "Remove bookmark" : "Bookmark"}
     </button>
   );
 }

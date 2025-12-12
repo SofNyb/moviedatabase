@@ -80,20 +80,16 @@ export default function Title() {
         </div>
 
         <div className="col-md-4">
-          {title.poster ? (
-            <img
-              src={title.poster}
-              alt={title.primaryTitle}
-              className="img-fluid rounded shadow"
-            />
-          ) : (
-            <div
-              className="bg-light border rounded d-flex align-items-center justify-content-center text-muted"
-              style={{ height: "600px" }}
-            >
-              <span className="fs-4">No Poster Available</span>
-            </div>
-          )}
+
+                      <Poster
+                        src={title.poster}
+                        alt={title.primaryTitle}
+                      style={{
+    width: "100%", 
+    maxWidth: "300px",   
+    height: "auto",      
+  }}
+    />
         </div>
       </div>
     </div>

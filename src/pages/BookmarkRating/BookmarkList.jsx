@@ -2,10 +2,13 @@ import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useBookmarks } from "../../hooks/useBookmarks";
-import ItemCard from "./ItemCard";
+import TitleCard from "./TitleCard";
+import NameCard from "./NameCard";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import EmptyState from "./EmptyState";
 import FormatDate from "../../Components/FormatDate";
+import ActorPhoto from "../../Components/ActorPhoto";
+
 
 const BookmarkList = ({ isPreview = false, limit = null }) => {
   const { titleBookmarks, nameBookmarks, loading, totalBookmarks } =
@@ -50,8 +53,8 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
               md={isPreview ? 6 : 4}
               lg={isPreview ? 6 : 3}
             >
-              <ItemCard
-                href={`/title/${bookmark.tconst}`}
+              <TitleCard
+                href={`/titles/${bookmark.tconst}`}
                 imageUrl={bookmark.titleData?.poster}
                 title={bookmark.titleData?.primaryTitle || bookmark.tconst}
                 subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
@@ -66,12 +69,21 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
               md={isPreview ? 6 : 4}
               lg={isPreview ? 6 : 3}
             >
-              <ItemCard
-                href={`/name/${bookmark.nconst}`}
-                imageUrl="https://via.placeholder.com/300x450?text=Actor"
-                title={bookmark.nameData?.name || bookmark.nconst}
-                subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
-              />
+
+<NameCard
+  href={`/names/${bookmark.nconst}`}
+  customImage={
+    <ActorPhoto
+      nconst={bookmark.nconst}
+      style={{ width: "100%", height: "400px", objectFit: "cover" }}
+      className="card-img-top"
+      alt={bookmark.nameData?.name || bookmark.nconst}
+    />
+  }
+  title={bookmark.nameData?.name || bookmark.nconst}
+  subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
+/>
+
             </Col>
           ))}
         </Row>
