@@ -78,7 +78,7 @@ export default function Titles() {
                           }}
                         />
                       </div>
-                      <div className="p-4 d-flex flex-column justify-content-center">
+                      <div className="p-4 d-flex flex-column justify-content-center align-items-start">
                         <h5 className="fw-bold mb-1">{title.primaryTitle}</h5>
                         <p className="text-muted mb-0">
                           {year || "Unknown release date"} • {titleType}
