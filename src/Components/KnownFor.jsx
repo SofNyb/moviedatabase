@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { nameService } from "../services/nameService";
 import LoadingSpinner from "./LoadingSpinner";
 import { Spinner } from "react-bootstrap";
+import FormatDate from "./FormatDate";
 
 export default function KnownFor({ imdbId }) {
   const [titles, setTitles] = useState([]);
@@ -25,7 +26,8 @@ export default function KnownFor({ imdbId }) {
           setTitles(Array.isArray(data) ? data : []);
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        // 404 means no known-for data exists for this actor - treat as empty
         if (!isCancelled) setTitles([]);
       })
       .finally(() => {
@@ -54,7 +56,9 @@ export default function KnownFor({ imdbId }) {
     <div className="row g-3 g-md-4">
       {titles.map((title) => {
         const tconst = title.url?.split("/").pop();
-        const year = title.releaseDate?.split("-")[0];
+        const formattedDate = title.releaseDate
+          ? FormatDate(title.releaseDate)
+          : null;
 
         return (
           <div key={title.url} className="col-6 col-sm-4 col-md-3 col-lg-2">
@@ -72,7 +76,9 @@ export default function KnownFor({ imdbId }) {
                 <div className="fw-bold small text-truncate">
                   {title.primaryTitle}
                 </div>
-                {year && <div className="text-muted small">{year}</div>}
+                {formattedDate && (
+                  <div className="text-muted small">{formattedDate}</div>
+                )}
               </div>
             </Link>
           </div>
