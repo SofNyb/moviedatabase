@@ -26,8 +26,7 @@ export default function KnownFor({ imdbId }) {
           setTitles(Array.isArray(data) ? data : []);
         }
       })
-      .catch((error) => {
-        // 404 means no known-for data exists for this actor - treat as empty
+      .catch(() => {
         if (!isCancelled) setTitles([]);
       })
       .finally(() => {
