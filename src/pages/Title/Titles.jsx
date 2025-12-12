@@ -55,6 +55,10 @@ export default function Titles() {
             {titles.map((title) => {
               const tconst = title.tconst || title.url?.split("/").pop();
               const year = ExtractYear(title.startYear || title.releaseDate);
+              const titleType = title.titleType
+                ? title.titleType.charAt(0).toUpperCase() +
+                  title.titleType.slice(1)
+                : "";
 
               return (
                 <div className="col" key={tconst}>
@@ -77,7 +81,7 @@ export default function Titles() {
                       <div className="p-4 d-flex flex-column justify-content-center">
                         <h5 className="fw-bold mb-1">{title.primaryTitle}</h5>
                         <p className="text-muted mb-0">
-                          {year || "Unknown release date"} • {title.titleType}
+                          {year || "Unknown release date"} • {titleType}
                         </p>
                       </div>
                     </div>
