@@ -103,7 +103,7 @@ export default function NamesList() {
                   <div className="p-4 flex-grow-1 d-flex flex-column justify-content-center">
                     <h5 className="mb-1 fw-bold">{person.name}</h5>
                     {details && (
-                      <p className="mb-0 text-muted small">
+                      <p className="mb-0 text-muted ">
                         {birthYear ? `Born ${birthYear}` : "Birth year unknown"}
                         {birthYear && professionName && " • "}
                         {professionName}
