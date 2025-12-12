@@ -1,9 +1,26 @@
 import { Link } from "react-router-dom";
+import { usePersonImages } from "../../hooks/usePersonImages";
 
 const POSTER_WIDTH = 182;
 const POSTER_HEIGHT = 268;
 
-const ItemCard = ({ href, imageUrl, title, subtitle, badge }) => {
+const ItemCard = ({
+  href,
+  imageUrl,
+  title,
+  subtitle,
+  badge,
+  isActor = false,
+  nconst = null,
+}) => {
+  const { urls } = usePersonImages(isActor && nconst ? nconst : null);
+
+  // Use TMDB image for actors if available, otherwise fall back to provided imageUrl
+  const displayImage =
+    isActor && urls.length > 0
+      ? `https://image.tmdb.org/t/p/w185${urls[0]}`
+      : imageUrl || "https://via.placeholder.com/300x450?text=No+Image";
+
   return (
     <Link to={href} className="text-decoration-none text-dark">
       <div className="d-flex shadow-sm rounded overflow-hidden bg-white hover-shadow transition">
@@ -17,9 +34,7 @@ const ItemCard = ({ href, imageUrl, title, subtitle, badge }) => {
           }}
         >
           <img
-            src={
-              imageUrl || "https://via.placeholder.com/300x450?text=No+Image"
-            }
+            src={displayImage}
             alt={title}
             style={{
               width: "100%",

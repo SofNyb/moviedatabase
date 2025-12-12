@@ -58,6 +58,8 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
                 imageUrl="https://via.placeholder.com/300x450?text=Actor"
                 title={bookmark.nameData?.name || bookmark.nconst}
                 subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
+                isActor={true}
+                nconst={bookmark.nconst}
               />
             ))}
           </div>
