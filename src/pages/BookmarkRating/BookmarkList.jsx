@@ -1,4 +1,3 @@
-import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useBookmarks } from "../../hooks/useBookmarks";
@@ -35,47 +34,35 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
           <FaChevronRight />
         </Link>
       ) : (
-        <h2 className="mb-4">Your Bookmarks ({totalBookmarks})</h2>
+        <h2 className="h4 fw-bold mb-4">Your Bookmarks ({totalBookmarks})</h2>
       )}
 
-      {totalBookmarks === 0 ? (
-        <EmptyState message="You haven't bookmarked anything yet." />
-      ) : (
-        <Row className={isPreview ? "g-3" : "g-4"}>
-          {displayTitleBookmarks.map((bookmark) => (
-            <Col
-              key={bookmark.tconst}
-              xs={12}
-              sm={6}
-              md={isPreview ? 6 : 4}
-              lg={isPreview ? 6 : 3}
-            >
+      <div className="bg-white rounded-3 shadow-sm p-4">
+        {totalBookmarks === 0 ? (
+          <EmptyState message="You haven't bookmarked anything yet." />
+        ) : (
+          <div className="d-flex flex-column gap-3">
+            {displayTitleBookmarks.map((bookmark) => (
               <ItemCard
+                key={bookmark.tconst}
                 href={`/titles/${bookmark.tconst}`}
                 imageUrl={bookmark.titleData?.poster}
                 title={bookmark.titleData?.primaryTitle || bookmark.tconst}
                 subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
               />
-            </Col>
-          ))}
-          {displayNameBookmarks.map((bookmark) => (
-            <Col
-              key={bookmark.nconst}
-              xs={12}
-              sm={6}
-              md={isPreview ? 6 : 4}
-              lg={isPreview ? 6 : 3}
-            >
+            ))}
+            {displayNameBookmarks.map((bookmark) => (
               <ItemCard
+                key={bookmark.nconst}
                 href={`/names/${bookmark.nconst}`}
                 imageUrl="https://via.placeholder.com/300x450?text=Actor"
                 title={bookmark.nameData?.name || bookmark.nconst}
                 subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
               />
-            </Col>
-          ))}
-        </Row>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
