@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar, Row, Col } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import Search from "./Search";
 import User from "./User";
 import Menu from "./Menu";
@@ -6,22 +6,18 @@ import Menu from "./Menu";
 const Navigation = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
-      <Container fluid className="px-4">
-        <Navbar.Brand href="/">LOGO</Navbar.Brand>
+      <Container fluid className="px-0">
+        <Navbar.Brand href="/" className="ms-3">
+          LOGO
+        </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
             <Menu />
-
-            <Row>
-              <Col xs="auto">
-                <Search />
-              </Col>
-            </Row>
-
             <Nav.Link href="/bookmark">Bookmarks</Nav.Link>
             <User />
+            <Search />
           </Nav>
         </Navbar.Collapse>
       </Container>
