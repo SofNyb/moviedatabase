@@ -16,14 +16,7 @@ export default function NameNconst() {
   return (
     <div className="container-fluid">
       <div className="container">
-        {/* Hero section: poster + name + quick facts side by side */}
         <div className="row g-4 align-items-start">
-          <div className="col-lg-3">
-            <div className="sticky-top" style={{ top: "80px" }}>
-              <ImagesFor imdbId={imdbId} />
-            </div>
-          </div>
-
           <div className="col-lg-9">
             <div className="bg-white rounded-3 shadow-sm p-4">
               <h1 className="display-5 fw-bold mb-1">{data.name}</h1>
@@ -81,6 +74,10 @@ export default function NameNconst() {
                 <NameTitles imdbId={imdbId} />
               </div>
             </section>
+          </div>
+
+          <div className="col-lg-3">
+            <ImagesFor imdbId={imdbId} />
           </div>
         </div>
       </div>
