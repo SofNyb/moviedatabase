@@ -40,7 +40,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="profile/edit" element={<Profile />} />
         <Route path="bookmark" element={<BookmarkList isPreview={false} />} />
         <Route path="rating" element={<RatingList isPreview={false} />} />
-        <Route path="searchhistory" element={<div>Hej</div>} />
+        <Route path="searchhistory" />
 
         <Route path="titles" element={<Titles />} />
         <Route path="titles/:tconst" element={<Title />}>
