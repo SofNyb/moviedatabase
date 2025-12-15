@@ -33,14 +33,13 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="/search" element={<SearchResults />} />
-        <Route path="/advanced-search" element={<AdvancedSearch />} />
+        <Route path="search" element={<SearchResults />} />
+        <Route path="advanced-search" element={<AdvancedSearch />} />
 
         <Route path="profile" element={<UserPage />} />
         <Route path="profile/edit" element={<Profile />} />
         <Route path="bookmark" element={<BookmarkList isPreview={false} />} />
         <Route path="rating" element={<RatingList isPreview={false} />} />
-        <Route path="searchhistory" />
 
         <Route path="titles" element={<Titles />} />
         <Route path="titles/:tconst" element={<Title />}>
