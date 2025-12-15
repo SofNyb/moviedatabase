@@ -60,12 +60,10 @@ function App() {
 
   return (
     <div className="container py-5">
-      <h1 className="h2 mb-5 text-center">Movie Database</h1>
-
       <div className="row g-4">
         {/* Titles Column - Left */}
         <div className="col-md-6">
-          <h2 className="h3 mb-4">All Titles</h2>
+          <h2 className="h3 mb-4">Movies</h2>
           <div className="d-flex flex-column gap-3">
             {titles.map((title) => {
               const tconst = title.tconst || title.url?.split("/").pop();
@@ -113,7 +111,7 @@ function App() {
 
         {/* Names Column - Right */}
         <div className="col-md-6">
-          <h2 className="h3 mb-4">All Names</h2>
+          <h2 className="h3 mb-4">Actors</h2>
           <div className="d-flex flex-column gap-3">
             {names.map((person) => {
               const nconst = person.url?.split("/").pop() || person.nconst;
