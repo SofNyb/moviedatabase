@@ -32,6 +32,7 @@ export const nameService = {
     return response.data;
   },
 
+  /*
   // Search names
   searchNames: async (query) => {
     const response = await api.get("/api/names/search", {
@@ -39,6 +40,7 @@ export const nameService = {
     });
     return response.data;
   },
+  */
 
   // Inside your existing nameService object — add this:
   getAllTitlesByPerson: async (imdbId) => {

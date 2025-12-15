@@ -22,6 +22,9 @@ import Profile from "./pages/Login/Profile.jsx";
 import BookmarkList from "./pages/BookmarkRating/BookmarkList.jsx";
 import RatingList from "./pages/BookmarkRating/RatingList.jsx";
 
+import SearchResults from "./pages/Search/SearchResults.jsx";
+import AdvancedSearch from "./pages/Search/AdvancedSearch.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -30,6 +33,8 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="/search" element={<SearchResults />} />
+        <Route path="/advanced-search" element={<AdvancedSearch />} />
 
         <Route path="profile" element={<UserPage />} />
         <Route path="profile/edit" element={<Profile />} />
