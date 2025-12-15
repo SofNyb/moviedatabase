@@ -1,30 +1,53 @@
-import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+const POSTER_WIDTH = 182;
+const POSTER_HEIGHT = 268;
+
 const TitleCard = ({ href, imageUrl, title, subtitle, badge }) => {
+  const displayImage =
+    imageUrl || "https://via.placeholder.com/300x450?text=No+Image";
+
   return (
-    <Link to={href} style={{ textDecoration: "none", color: "inherit" }}>
-      <Card className="h-100 item-card">
-        <Card.Img
-          variant="top"
-          src={imageUrl || "https://via.placeholder.com/300x450?text=No+Image"}
-          style={{ height: "400px", objectFit: "cover" }}
-          alt={title}
-        />
-        <Card.Body>
-          <Card.Title className="text-truncate">{title}</Card.Title>
+    <Link to={href} className="text-decoration-none text-dark">
+      <div className="d-flex shadow-sm rounded overflow-hidden bg-white hover-shadow transition">
+        {/* Fixed-size poster */}
+        <div
+          style={{
+            width: POSTER_WIDTH,
+            height: POSTER_HEIGHT,
+            flexShrink: 0,
+            backgroundColor: "#f8f9fa",
+          }}
+        >
+          <img
+            src={displayImage}
+            alt={title}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </div>
+
+        {/* Text content */}
+        <div className="p-4 d-flex flex-column justify-content-center flex-grow-1">
+          <h6 className="mb-1 fw-bold text-truncate">{title}</h6>
+
           {badge && (
-            <Card.Text>
+            <p className="mb-1 text-warning small">
               <strong>{badge.label}:</strong> {badge.value}
-            </Card.Text>
+            </p>
           )}
+
           {subtitle && (
-            <Card.Text className="text-muted small">{subtitle}</Card.Text>
+            <p className="mb-0 text-muted small">{subtitle}</p>
           )}
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
     </Link>
   );
 };
 
 export default TitleCard;
+

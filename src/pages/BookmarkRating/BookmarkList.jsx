@@ -1,4 +1,3 @@
-import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useBookmarks } from "../../hooks/useBookmarks";
@@ -30,64 +29,51 @@ const BookmarkList = ({ isPreview = false, limit = null }) => {
   return (
     <div className={isPreview ? "" : "container py-4"}>
       {isPreview ? (
-        <Link
-          to="/bookmark"
+        <Link to="/bookmark"
           className="d-flex align-items-center mb-3 text-dark"
         >
           Bookmarks {totalBookmarks}
           <FaChevronRight />
         </Link>
       ) : (
-        <h2 className="mb-4">Your Bookmarks ({totalBookmarks})</h2>
+        <h2 className="h4 fw-bold mb-4">Your Bookmarks ({totalBookmarks})</h2>
       )}
 
-      {totalBookmarks === 0 ? (
-        <EmptyState message="You haven't bookmarked anything yet." />
-      ) : (
-        <Row className={isPreview ? "g-3" : "g-4"}>
-          {displayTitleBookmarks.map((bookmark) => (
-            <Col
-              key={bookmark.tconst}
-              xs={12}
-              sm={6}
-              md={isPreview ? 6 : 4}
-              lg={isPreview ? 6 : 3}
-            >
+      <div className="bg-white rounded-3 shadow-sm p-4">
+        {totalBookmarks === 0 ? (
+          <EmptyState message="You haven't bookmarked anything yet." />
+        ) : (
+          <div className="d-flex flex-column gap-3">
+            {displayTitleBookmarks.map((bookmark) => (
               <TitleCard
+                key={bookmark.tconst}
                 href={`/titles/${bookmark.tconst}`}
                 imageUrl={bookmark.titleData?.poster}
                 title={bookmark.titleData?.primaryTitle || bookmark.tconst}
                 subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
               />
-            </Col>
-          ))}
-          {displayNameBookmarks.map((bookmark) => (
-            <Col
-              key={bookmark.nconst}
-              xs={12}
-              sm={6}
-              md={isPreview ? 6 : 4}
-              lg={isPreview ? 6 : 3}
-            >
 
-<NameCard
-  href={`/names/${bookmark.nconst}`}
-  customImage={
-    <ActorPhoto
-      nconst={bookmark.nconst}
-      style={{ width: "100%", height: "400px", objectFit: "cover" }}
-      className="card-img-top"
-      alt={bookmark.nameData?.name || bookmark.nconst}
-    />
-  }
-  title={bookmark.nameData?.name || bookmark.nconst}
-  subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
-/>
-
-            </Col>
-          ))}
-        </Row>
-      )}
+            ))}
+            {displayNameBookmarks.map((bookmark) => (
+              <NameCard
+                key={bookmark.nconst}
+                href={`/names/${bookmark.nconst}`}
+                customImage={
+                <ActorPhoto
+                    nconst={bookmark.nconst}
+                    className="card-img-top"
+                    alt={bookmark.nameData?.name || bookmark.nconst}
+                  />
+                }
+                title={bookmark.nameData?.name || bookmark.nconst}
+                subtitle={`Bookmarked on ${FormatDate(bookmark.createdAt)}`}
+                isActor={true}
+                nconst={bookmark.nconst}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

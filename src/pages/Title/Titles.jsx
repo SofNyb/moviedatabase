@@ -1,16 +1,23 @@
 // src/pages/Titles/Titles.jsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { titleService } from "../../services/titleService";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import Poster from "../../Components/Poster";
 import Pagination from "../../Components/Pagination";
+import { ExtractYear } from "../../Components/FormatDate";
 
 export default function Titles() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [titles, setTitles] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const currentPage = parseInt(searchParams.get("page") || "0", 10);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage.toString() });
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -23,7 +30,7 @@ export default function Titles() {
         setTotalPages(data.numberOfPages || 1);
       })
       .catch((err) => {
-        if (!err.name === "CanceledError") {
+        if (!err.name === "CancelledError") {
           console.error(err);
           setTitles([]);
           setTotalPages(1);
@@ -44,37 +51,42 @@ export default function Titles() {
         <div className="text-center text-muted py-5">No titles found.</div>
       ) : (
         <>
-          <div className="d-flex flex-column gap-4">
+          <div className="row row-cols-1 row-cols-md-2 g-4">
             {titles.map((title) => {
               const tconst = title.tconst || title.url?.split("/").pop();
-              const year = title.startYear || title.releaseDate?.slice(0, 4);
+              const year = ExtractYear(title.startYear || title.releaseDate);
+              const titleType = title.titleType
+                ? title.titleType.charAt(0).toUpperCase() +
+                  title.titleType.slice(1)
+                : "";
 
               return (
-                <Link
-                  key={tconst}
-                  to={`/titles/${tconst}`}
-                  className="text-decoration-none text-dark"
-                >
-                  <div className="d-flex shadow-sm rounded overflow-hidden bg-white">
-                    <div style={{ width: 140, height: 207, flexShrink: 0 }}>
-                      <Poster
-                        src={title.poster}
-                        alt={title.primaryTitle}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
+                <div className="col" key={tconst}>
+                  <Link
+                    to={`/titles/${tconst}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    <div className="d-flex shadow-sm rounded overflow-hidden bg-white h-100">
+                      <div style={{ width: 140, height: 207, flexShrink: 0 }}>
+                        <Poster
+                          src={title.poster}
+                          alt={title.primaryTitle}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </div>
+                      <div className="p-4 d-flex flex-column justify-content-center align-items-start">
+                        <h5 className="fw-bold mb-1">{title.primaryTitle}</h5>
+                        <p className="text-muted mb-0">
+                          {year || "Unknown release date"} • {titleType}
+                        </p>
+                      </div>
                     </div>
-                    <div className="p-4 d-flex flex-column justify-content-center">
-                      <h5 className="fw-bold mb-1">{title.primaryTitle}</h5>
-                      <p className="text-muted mb-0">
-                        {year || "????"} • {title.titleType}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               );
             })}
           </div>
@@ -82,7 +94,7 @@ export default function Titles() {
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}
-            onPageChange={setCurrentPage}
+            onPageChange={handlePageChange}
           />
         </>
       )}

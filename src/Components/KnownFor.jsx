@@ -1,9 +1,10 @@
-// src/components/KnownFor.jsx
+// src/Components/KnownFor.jsx
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { nameService } from "../services/nameService";        // correct path
-import LoadingSpinner from "./LoadingSpinner";               // your shared spinner
-import { Spinner } from "react-bootstrap";                     // already imported via LoadingSpinner
+import { nameService } from "../services/nameService";
+import LoadingSpinner from "./LoadingSpinner";
+import { Spinner } from "react-bootstrap";
+import FormatDate from "./FormatDate";
 
 export default function KnownFor({ imdbId }) {
   const [titles, setTitles] = useState([]);
@@ -54,7 +55,9 @@ export default function KnownFor({ imdbId }) {
     <div className="row g-3 g-md-4">
       {titles.map((title) => {
         const tconst = title.url?.split("/").pop();
-        const year = title.releaseDate?.split("-")[0];
+        const formattedDate = title.releaseDate
+          ? FormatDate(title.releaseDate)
+          : null;
 
         return (
           <div key={title.url} className="col-6 col-sm-4 col-md-3 col-lg-2">
@@ -69,8 +72,12 @@ export default function KnownFor({ imdbId }) {
                 style={{ height: "220px", objectFit: "cover" }}
               />
               <div className="p-2 bg-white">
-                <div className="fw-bold small text-truncate">{title.primaryTitle}</div>
-                {year && <div className="text-muted small">{year}</div>}
+                <div className="fw-bold small text-truncate">
+                  {title.primaryTitle}
+                </div>
+                {formattedDate && (
+                  <div className="text-muted small">{formattedDate}</div>
+                )}
               </div>
             </Link>
           </div>

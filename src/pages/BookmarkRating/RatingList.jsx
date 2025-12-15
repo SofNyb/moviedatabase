@@ -1,4 +1,3 @@
-import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { useRatings } from "../../hooks/useRatings";
@@ -23,22 +22,17 @@ const RatingList = ({ isPreview = false, limit = null }) => {
           <FaChevronRight />
         </Link>
       ) : (
-        <h2 className="mb-4">Your Ratings ({ratings.length})</h2>
+        <h2 className="h4 fw-bold mb-4">Your Ratings ({ratings.length})</h2>
       )}
 
-      {ratings.length === 0 ? (
-        <EmptyState message="You haven't rated anything yet." />
-      ) : (
-        <Row className={isPreview ? "g-3" : "g-4"}>
-          {displayRatings.map((rating) => (
-            <Col
-              key={rating.tconst}
-              xs={12}
-              sm={6}
-              md={isPreview ? 6 : 4}
-              lg={isPreview ? 6 : 3}
-            >
+      <div className="bg-white rounded-3 shadow-sm p-4">
+        {ratings.length === 0 ? (
+          <EmptyState message="You haven't rated anything yet." />
+        ) : (
+          <div className="d-flex flex-column gap-3">
+            {displayRatings.map((rating) => (
               <TitleCard
+                key={rating.tconst}
                 href={`/titles/${rating.tconst}`}
                 imageUrl={rating.titleData?.poster}
                 title={rating.titleData?.primaryTitle || rating.tconst}
@@ -48,10 +42,10 @@ const RatingList = ({ isPreview = false, limit = null }) => {
                 }}
                 subtitle={`Rated ${FormatDate(rating.createdAt)}`}
               />
-            </Col>
-          ))}
-        </Row>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
