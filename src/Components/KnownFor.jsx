@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { nameService } from "../services/nameService";
 import LoadingSpinner from "./LoadingSpinner";
-import { Spinner } from "react-bootstrap";
 import FormatDate from "./FormatDate";
 
 export default function KnownFor({ imdbId }) {
