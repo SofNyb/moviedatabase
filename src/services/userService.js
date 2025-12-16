@@ -28,42 +28,42 @@ export const userService = {
 
   // Add title bookmark
   addTitleBookmark: async (tconst) => {
-  const user = await userService.getCurrentUserProfile();   // works in app
+    const user = await userService.getCurrentUserProfile();
     const response = await api.post("/api/functions/bookmarks/title", {
       tconst,
-      UserId: user.url.split("/").pop()
+      UserId: user.url.split("/").pop(),
     });
     return response.data;
   },
 
   // Add name bookmark
   addNameBookmark: async (nconst) => {
-  const user = await userService.getCurrentUserProfile();   // works in app
+    const user = await userService.getCurrentUserProfile();
     const response = await api.post("/api/functions/bookmarks/name", {
       nconst,
-      UserId: user.url.split("/").pop()
+      UserId: user.url.split("/").pop(),
     });
     return response.data;
   },
 
   // Remove title bookmark
   removeTitleBookmark: async (tconst) => {
-  const user = await userService.getCurrentUserProfile();
+    const user = await userService.getCurrentUserProfile();
     const response = await api.delete("/api/functions/bookmarks/title", {
       tconst,
-      UserId: user.url.split("/").pop()
+      UserId: user.url.split("/").pop(),
     });
     return response.data;
   },
 
   // Remove name bookmark
   removeNameBookmark: async (nconst) => {
-  const user = await userService.getCurrentUserProfile();   // works in app
+    const user = await userService.getCurrentUserProfile();
     const response = await api.delete("/api/functions/bookmarks/name", {
       nconst,
-      UserId: user.url.split("/").pop()
+      UserId: user.url.split("/").pop(),
     });
-    console.log(response)
+    console.log(response);
     return response.data;
   },
 
@@ -74,14 +74,14 @@ export const userService = {
   },
 
   // Add/Update rating
- rateTitle: async (tconst, rating) => {
-  const user = await userService.getCurrentUserProfile();   // works in app
-  await api.post("/api/functions/rate", {
+  rateTitle: async (tconst, rating) => {
+    const user = await userService.getCurrentUserProfile();
+    await api.post("/api/functions/rate", {
       Rating: parseInt(rating, 10),
       Tconst: tconst,
-      PersonId: user.url.split("/").pop()
-  });
-},
+      PersonId: user.url.split("/").pop(),
+    });
+  },
 
   getSearchHistory: async () => {
     const response = await api.get("/api/person/searchhistory");
