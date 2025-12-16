@@ -4,7 +4,9 @@ import api from "./api";
 export const nameService = {
   // Get all names with pagination
   getNames: async (page = 0, pageSize = 10) => {
-    const response = await api.get("/api/names", { params: { page, pageSize } });
+    const response = await api.get("/api/names", {
+      params: { page, pageSize },
+    });
     return response.data;
   },
 
@@ -32,17 +34,7 @@ export const nameService = {
     return response.data;
   },
 
-  /*
-  // Search names
-  searchNames: async (query) => {
-    const response = await api.get("/api/names/search", {
-      params: { q: query },
-    });
-    return response.data;
-  },
-  */
-
-  // Inside your existing nameService object — add this:
+  // Get all titles associated with a person
   getAllTitlesByPerson: async (imdbId) => {
     const response = await api.get(`/api/names/${imdbId}/titles`);
     return response.data || [];
