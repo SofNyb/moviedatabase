@@ -27,7 +27,7 @@ function UserHero() {
               <Card.Text>
                 <FaCalendar /> Joined at {FormatDate(user.createdAt)}
               </Card.Text>
-              <Button variant="dark" as={Link} to="/profile">
+              <Button variant="dark" as={Link} to="/profile/edit">
                 Edit Profile
               </Button>
             </div>
@@ -37,7 +37,7 @@ function UserHero() {
         <Col md={6}>
           <Row className="mb-2">
             <Col xs={11} className="d-flex justify-content-end">
-              <Link to="/profile" className="ms-3 text-dark">
+              <Link to="/profile/edit" className="ms-3 text-dark">
                 <FaCog size={20} />
               </Link>
             </Col>

@@ -39,10 +39,21 @@ const api = async (inputUrl, options = {}) => {
     throw new Error("Unauthorized");
   }
 
-  const data = await response.json().catch(() => null);
+  // Try to parse response as JSON, fallback to text
+  let data = null;
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    data = await response.json().catch(() => null);
+  } else {
+    const text = await response.text().catch(() => "");
+    data = text ? { message: text } : null;
+  }
 
   if (!response.ok) {
-    throw new Error(data?.message || "Request failed");
+    const errorMessage =
+      data?.message || data || `Request failed with status ${response.status}`;
+    console.error("API Error:", { status: response.status, data, url });
+    throw new Error(errorMessage);
   }
 
   return { data };
@@ -50,9 +61,13 @@ const api = async (inputUrl, options = {}) => {
 
 // Convenience methods
 api.get = (url, config = {}) => api(url, { ...config, method: "GET" });
-api.post = (url, body, config = {}) => api(url, { ...config, method: "POST", body: JSON.stringify(body) });
-api.put = (url, body, config = {}) => api(url, { ...config, method: "PUT", body: JSON.stringify(body) });
-api.delete = (url, body, config = {}) => api(url, { ...config, method: "DELETE", body: JSON.stringify(body) });
-api.patch = (url, body, config = {}) => api(url, { ...config, method: "PATCH", body: JSON.stringify(body) });
+api.post = (url, body, config = {}) =>
+  api(url, { ...config, method: "POST", body: JSON.stringify(body) });
+api.put = (url, body, config = {}) =>
+  api(url, { ...config, method: "PUT", body: JSON.stringify(body) });
+api.delete = (url, body, config = {}) =>
+  api(url, { ...config, method: "DELETE", body: JSON.stringify(body) });
+api.patch = (url, body, config = {}) =>
+  api(url, { ...config, method: "PATCH", body: JSON.stringify(body) });
 
 export default api;

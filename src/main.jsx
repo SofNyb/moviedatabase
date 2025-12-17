@@ -19,6 +19,7 @@ import Navigation from "./Components/Nav/Navbar.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Register from "./pages/Login/Register.jsx";
 import Profile from "./pages/Login/Profile.jsx";
+import DeleteProfile from "./pages/Login/DeleteProfile.jsx";
 import BookmarkList from "./pages/BookmarkRating/BookmarkList.jsx";
 import RatingList from "./pages/BookmarkRating/RatingList.jsx";
 
@@ -43,6 +44,7 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="profile" element={<UserPage />} />
         <Route path="profile/edit" element={<Profile />} />
+        <Route path="delete-profile" element={<DeleteProfile />} />
         <Route path="bookmark" element={<BookmarkList isPreview={false} />} />
         <Route path="rating" element={<RatingList isPreview={false} />} />
 
@@ -55,13 +57,18 @@ createRoot(document.getElementById("root")).render(
           <Route path="overallrating" element={<OverallRating />} />
         </Route>
 
-        <Route path="titles/:tconst/related-titles" element={<RelatedTitles />} />
+        <Route
+          path="titles/:tconst/related-titles"
+          element={<RelatedTitles />}
+        />
 
         <Route path="/names/:nconst/coplayers" element={<FindCoplayers />} />
-        <Route path="/names/:nconst/popular-coplayers" element={<PopularCoplayers />} />
+        <Route
+          path="/names/:nconst/popular-coplayers"
+          element={<PopularCoplayers />}
+        />
         <Route path="names" element={<NamesList />} />
         <Route path="names/:nconst" element={<NameNconst />} />
-
       </Routes>
     </BrowserRouter>
   </StrictMode>

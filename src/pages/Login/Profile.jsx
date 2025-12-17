@@ -1,5 +1,6 @@
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import { FaCalendar } from "react-icons/fa";
@@ -130,9 +131,16 @@ const Profile = () => {
 
                 {error && <p className="text-danger">{error}</p>}
 
-                <Button variant="primary" type="submit" disabled={loading}>
-                  {loading ? "Saving..." : "Save Profile"}
-                </Button>
+                <div className="d-flex justify-content-between align-items-center">
+                  <Button variant="primary" type="submit" disabled={loading}>
+                    {loading ? "Saving..." : "Save Profile"}
+                  </Button>
+                  <Link to="/delete-profile">
+                    <Button variant="outline-danger" size="sm">
+                      Delete Account
+                    </Button>
+                  </Link>
+                </div>
               </Form>
             )}
           </Card.Body>
