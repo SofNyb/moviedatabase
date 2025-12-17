@@ -53,4 +53,11 @@ export const nameService = {
     });
     return response.data;
   },
+
+  findNames: async (name, limit = 20) => {
+    const response = await api.get(`/api/functions/find-names`, {
+      params: { name, limit }
+    });
+    return response.data;
+  },
 };
