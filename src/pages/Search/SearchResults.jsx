@@ -10,6 +10,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q")?.trim() || "";
+  const mode = searchParams.get("mode") || "standard";
   const page = Number(searchParams.get("page") || 1);
   const limit = 50;
 
@@ -24,14 +25,24 @@ export default function SearchResults() {
     }
 
     setLoading(true);
-    searchService
-      .searchTitles(query, limit)
+
+    // Choose search method based on mode
+    let searchPromise;
+    if (mode === "exact") {
+      searchPromise = searchService.exactMatch(query, limit);
+    } else if (mode === "best") {
+      searchPromise = searchService.bestMatch(query, limit);
+    } else {
+      searchPromise = searchService.searchTitles(query, limit);
+    }
+
+    searchPromise
       .then((res) => {
         setTitles(res.titles);
         setTotal(res.total);
       })
       .finally(() => setLoading(false));
-  }, [query, page]);
+  }, [query, mode, page]);
 
   if (!query) {
     return (
@@ -42,9 +53,18 @@ export default function SearchResults() {
   }
 
   console.log(titles);
+
+  const modeLabel =
+    mode === "exact"
+      ? "Exact Match"
+      : mode === "best"
+      ? "Best Match"
+      : "Standard";
+
   return (
     <div className="container py-4">
-      <h2 className="mb-4">Search results: "{query}"</h2>
+      <h2 className="mb-2">Search results: "{query}"</h2>
+      <p className="text-muted mb-4">Search mode: {modeLabel}</p>
       <Link
         to="/advanced-search"
         className="btn btn-outline-primary btn-sm mb-4 d-block"
