@@ -34,14 +34,21 @@ export default function SearchResults() {
   }, [query, page]);
 
   if (!query) {
-    return <div className="container py-5 text-center">Type something and press Enter</div>;
+    return (
+      <div className="container py-5 text-center">
+        Type something in the search bar and press Enter
+      </div>
+    );
   }
 
-  console.log(titles)
+  console.log(titles);
   return (
     <div className="container py-4">
       <h2 className="mb-4">Search results: "{query}"</h2>
-      <Link to="/advanced-search" className="btn btn-outline-primary btn-sm mb-4 d-block">
+      <Link
+        to="/advanced-search"
+        className="btn btn-outline-primary btn-sm mb-4 d-block"
+      >
         Advanced Search
       </Link>
 
@@ -53,12 +60,16 @@ export default function SearchResults() {
           <div className="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 mb-5">
             {titles.map((t) => (
               <div className="col" key={t.tconst}>
-                  <TitleCard href={`/titles/${t.tconst}`} title={t.primarytitle} customImage={<Poster poster={t.poster} />} />
+                <TitleCard
+                  href={`/titles/${t.tconst}`}
+                  title={t.primarytitle}
+                  customImage={<Poster poster={t.poster} />}
+                />
               </div>
             ))}
           </div>
 
-        {/*
+          {/*
           <Pagination currentPage={page} total={total} baseUrl={`/search?q=${encodeURIComponent(query)}`} />
           */}
         </>
