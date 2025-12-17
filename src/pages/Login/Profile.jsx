@@ -29,6 +29,14 @@ const Profile = () => {
     setLoading(true);
 
     try {
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email && !emailRegex.test(email)) {
+        setError("Please enter a valid email address");
+        setLoading(false);
+        return;
+      }
+
       const profileData = {
         name,
         email,

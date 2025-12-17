@@ -26,7 +26,7 @@ const Login = () => {
       await login({ email, password });
       navigate("/profile");
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password");
+      setError("Invalid email or password");
     } finally {
       setLoading(false);
     }
