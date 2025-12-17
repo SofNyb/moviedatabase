@@ -30,7 +30,7 @@ export default function Titles() {
         setTotalPages(data.numberOfPages || 1);
       })
       .catch((err) => {
-        if (!err.name === "CancelledError") {
+        if (!err.name !== "AbortError") {
           console.error(err);
           setTitles([]);
           setTotalPages(1);

@@ -27,9 +27,6 @@ const User = () => {
         <NavDropdown.Item as={Link} to="/rating">
           Your ratings
         </NavDropdown.Item>
-        <NavDropdown.Item as={Link} to="/searchhistory">
-          Your search history
-        </NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item onClick={handleSignOut}>Sign out</NavDropdown.Item>
       </NavDropdown>

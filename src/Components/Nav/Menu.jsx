@@ -1,10 +1,11 @@
 import { NavDropdown } from "react-bootstrap";
+import { Link } from "react-router";
 
 const Menu = () => {
   return (
     <NavDropdown title="Menu" id="basic-nav-dropdown">
-      <NavDropdown.Item href="/titles">All titles</NavDropdown.Item>
-      <NavDropdown.Item href="/names">All actors</NavDropdown.Item>
+      <Link className="dropdown-item" to="/titles">All titles</Link>
+      <Link className="dropdown-item" to="/names">All actors</Link>
     </NavDropdown>
   );
 };

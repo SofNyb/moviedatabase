@@ -11,6 +11,7 @@ export default function SearchResults() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q")?.trim() || "";
   const page = Number(searchParams.get("page") || 1);
+  const limit = 50;
 
   const [titles, setTitles] = useState([]);
   const [total, setTotal] = useState(0);
@@ -24,7 +25,7 @@ export default function SearchResults() {
 
     setLoading(true);
     searchService
-      .searchTitles(query, page)
+      .searchTitles(query, limit)
       .then((res) => {
         setTitles(res.titles);
         setTotal(res.total);
@@ -36,6 +37,7 @@ export default function SearchResults() {
     return <div className="container py-5 text-center">Type something and press Enter</div>;
   }
 
+  console.log(titles)
   return (
     <div className="container py-4">
       <h2 className="mb-4">Search results: "{query}"</h2>
@@ -51,12 +53,14 @@ export default function SearchResults() {
           <div className="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 mb-5">
             {titles.map((t) => (
               <div className="col" key={t.tconst}>
-                  <TitleCard href={`/titles/${t.tconst}`} title={t.primarytitle} customImage={<Poster tconst={t.tconst} />} />
+                  <TitleCard href={`/titles/${t.tconst}`} title={t.primarytitle} customImage={<Poster poster={t.poster} />} />
               </div>
             ))}
           </div>
 
+        {/*
           <Pagination currentPage={page} total={total} baseUrl={`/search?q=${encodeURIComponent(query)}`} />
+          */}
         </>
       )}
 

@@ -12,11 +12,13 @@ import Akas from "../../Components/Akas";
 import OverallRating from "../../Components/OverallRating";
 import BookmarkButton from "../../Components/BookmarkButton";
 import RateButton from "../../Components/RateButton";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Title() {
   const { tconst } = useParams();
   const [title, setTitle] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
     if (!tconst) {
@@ -35,7 +37,7 @@ export default function Title() {
       .finally(() => setLoading(false));
   }, [tconst]);
 
-  if (loading) return <LoadingSpinner />;
+  if (authLoading || loading) return <LoadingSpinner />;
   if (!title)
     return <div className="container py-5 text-center">Title not found</div>;
 
@@ -60,8 +62,12 @@ export default function Title() {
 
           <div className="d-flex align-items-center gap-3 my-3">
             <span className="fw-bold">Rating ⭐ {averageRating}</span>
+            {user && (
+              <>
             <RateButton tconst={tconst} />
             <BookmarkButton tconst={tconst} />
+              </>
+            )}
           </div>
 
           <p className="mb-2">

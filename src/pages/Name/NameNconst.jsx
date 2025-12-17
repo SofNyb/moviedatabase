@@ -3,13 +3,15 @@ import { useParams } from "react-router-dom";
 import ImagesFor from "../../Components/ImagesFor";
 import KnownFor from "../../Components/KnownFor";
 import NameTitles from "../../Components/NameTitles";
+import { useAuth } from "../../hooks/useAuth";
 import BookmarkButton from "../../Components/BookmarkButton";
 
 export default function NameNconst() {
   const { nconst } = useParams();
   const { data, loading, error } = useName(nconst);
+  const { user, loading: authLoading } = useAuth();
 
-  if (loading) return <div className="text-center py-5">Loading...</div>;
+  if (authLoading || loading) return <div className="text-center py-5">Loading...</div>;
   if (error) return <div className="alert alert-danger">Error: {error}</div>;
 
   const imdbId = data.url.split("/").pop();
@@ -27,7 +29,10 @@ export default function NameNconst() {
                 {data.deathYear && `${data.deathYear}`}
               </div>
 
+
+            {user && (
             <BookmarkButton nconst={nconst} />
+            )}
               {/* Quick facts in a single row */}
               <div className="row g-4 mb-4 align-items-start">
                 {data.nameRating && (

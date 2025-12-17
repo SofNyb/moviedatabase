@@ -12,13 +12,14 @@ export default function AdvancedSearch() {
   const [person, setPerson] = useState("");
   const [titles, setTitles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const limit = 50;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
     searchService
-      .advancedSearch({ title, plot, character, person })
+      .advancedSearch({ title, plot, character, person, limit})
       .then(res => setTitles(res.titles))
       .finally(() => setLoading(false));
   };
