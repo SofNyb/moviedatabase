@@ -35,9 +35,12 @@ const api = async (inputUrl, options = {}) => {
 
   if (response.status === 401) {
     localStorage.removeItem("token");
-    window.location.href = "/login";
-    throw new Error("Unauthorized");
-  }
+    // Don't redirect, just throw the error
+    // Let the calling component decide what to do
+    const error = new Error("Unauthorized");
+    error.response = { status: 401, data };
+    throw error;
+  } 
 
   // Try to parse response as JSON, fallback to text
   let data = null;

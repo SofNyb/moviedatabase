@@ -23,7 +23,7 @@ function UserHero() {
           <div className="d-flex align-items-start gap-3">
             <FaUserCircle size={80} className="flex-shrink-0" />
             <div>
-              <Card.Title>{user.name || user.email}</Card.Title>
+              <Card.Title>{user.name || user.email?.split('@')[0] || 'User'}</Card.Title>
               <Card.Text>
                 <FaCalendar /> Joined at {FormatDate(user.createdAt)}
               </Card.Text>
