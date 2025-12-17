@@ -82,4 +82,11 @@ export const titleService = {
   const response = await api.get(`/api/titles/${tconst}/episodes`);
   return response.data || []; // returns array of episode objects
 },
+
+  getRelatedMovies: async (tconst, limit = 10) => {
+  const response = await api.get(`/api/functions/related-movies`, {
+    params: { tconst, limit }
+  });
+  return response.data;
+},
 };

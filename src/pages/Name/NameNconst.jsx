@@ -1,5 +1,5 @@
 import { useName } from "../../hooks/useName";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ImagesFor from "../../Components/ImagesFor";
 import KnownFor from "../../Components/KnownFor";
 import NameTitles from "../../Components/NameTitles";
@@ -82,6 +82,16 @@ export default function NameNconst() {
                 <NameTitles imdbId={imdbId} />
               </div>
             </section>
+
+          <h2>More</h2>
+                {user && (
+<>
+          <Link to={`/names/${nconst}/coplayers`}> Coplayers </Link>
+                  <br/>
+</>
+                )}
+          <Link to={`/names/${nconst}/popular-coplayers`}> Popular coplayers </Link>
+
           </div>
 
           <div className="col-lg-3">

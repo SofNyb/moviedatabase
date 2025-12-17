@@ -25,6 +25,11 @@ import RatingList from "./pages/BookmarkRating/RatingList.jsx";
 import SearchResults from "./pages/Search/SearchResults.jsx";
 import AdvancedSearch from "./pages/Search/AdvancedSearch.jsx";
 
+import RelatedTitles from "./pages/Title/RelatedTitles";
+
+import FindCoplayers from "./pages/Name/FindCoplayers";
+import PopularCoplayers from "./pages/Name/PopularCoplayers";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -50,8 +55,13 @@ createRoot(document.getElementById("root")).render(
           <Route path="overallrating" element={<OverallRating />} />
         </Route>
 
+        <Route path="titles/:tconst/related-titles" element={<RelatedTitles />} />
+
+        <Route path="/names/:nconst/coplayers" element={<FindCoplayers />} />
+        <Route path="/names/:nconst/popular-coplayers" element={<PopularCoplayers />} />
         <Route path="names" element={<NamesList />} />
         <Route path="names/:nconst" element={<NameNconst />} />
+
       </Routes>
     </BrowserRouter>
   </StrictMode>

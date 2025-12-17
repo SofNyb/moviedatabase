@@ -10,14 +10,13 @@ export default function BookmarkButton({ tconst, nconst }) {
   const isPerson = !!nconst;
   const id = tconst || nconst;
 
-  // Load current bookmark status
   const loadStatus = async () => {
     try {
       let bookmarks;
       if (isTitle) {
         bookmarks = await userService.getTitleBookmarks();
       } else if (isPerson) {
-        bookmarks = await userService.getNameBookmarks(); // ← you'll add this
+        bookmarks = await userService.getNameBookmarks();
       } else {
         return;
       }
@@ -56,11 +55,10 @@ export default function BookmarkButton({ tconst, nconst }) {
         }
       }
 
-      // Optimistic toggle
       setIsBookmarked(prev => !prev);
     } catch (err) {
       alert("Failed to update bookmark");
-      loadStatus(); // revert on error
+      loadStatus();
     } finally {
       setLoading(false);
     }

@@ -39,4 +39,18 @@ export const nameService = {
     const response = await api.get(`/api/names/${imdbId}/titles`);
     return response.data || [];
   },
+
+  findCoplayers: async (nconst, limit = 10) => {
+    const response = await api.get(`/api/functions/find-coplayers`, {
+      params: { nconst, limit }
+    });
+    return response.data;
+  },
+
+  getPopularCoplayers: async (name, limit = 10) => {
+    const response = await api.get(`/api/functions/popular-coplayers`, {
+      params: { name, limit }
+    });
+    return response.data;
+  },
 };

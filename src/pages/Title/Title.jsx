@@ -83,19 +83,18 @@ export default function Title() {
           <Award />
           <Akas />
           <OverallRating />
+          <h2>More</h2>
+          <Link to={`/titles/${tconst}/related-titles`}> Related titles </Link>
         </div>
 
         <div className="col-md-4">
-
-                      <Poster
-                        src={title.poster}
-                        alt={title.primaryTitle}
-                      style={{
-    width: "100%", 
-    maxWidth: "300px",   
-    height: "auto",      
-  }}
-    />
+          <div style={{ maxWidth: "300px" }}>
+            <Poster
+            src={title.poster}
+            alt={title.primaryTitle}
+            className="w-100 h-auto"
+            />
+          </div>
         </div>
       </div>
     </div>
