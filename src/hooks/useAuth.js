@@ -74,15 +74,19 @@ export const useAuth = () => {
 
   const register = async (userData) => {
     try {
-      const response = await authService.register(
+      // First, register the user
+      await authService.register(userData.email, userData.password);
+      // Then, automatically log them in to get the token
+      const loginResponse = await authService.login(
         userData.email,
         userData.password
       );
       const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
       window.dispatchEvent(new Event("authStateChanged"));
-      return response;
+      return loginResponse;
     } catch (error) {
+      console.error("Error in register hook:", error);
       setError(error);
       throw error;
     }

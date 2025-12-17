@@ -14,7 +14,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/profile");
+      navigate("/profile/edit");
     }
   }, [isAuthenticated, navigate]);
 
