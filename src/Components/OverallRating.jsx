@@ -33,7 +33,7 @@ export default function OverallRating() {
         {average}
       </div>
       <p className="text-muted mb-0">
-        based on {rating.votes.toLocaleString()} votes
+        based on {rating.votes} votes
       </p>
     </div>
   );

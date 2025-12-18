@@ -60,12 +60,12 @@ export const titleService = {
 
   getAkas: async (tconst) => {
     const response = await api.get(`/api/titles/${tconst}/akas`);
-    return response.data || []; // backend returns array directly
+    return response.data || []; 
   },
 
   getAwards: async (tconst) => {
     const response = await api.get(`/api/titles/${tconst}/awards`);
-    return response.data; // { awardInfo: "Won 3 Oscars..." }
+    return response.data;
   },
 
   getAllCast: async (tconst) => {
@@ -75,18 +75,23 @@ export const titleService = {
 
     getOverallRating: async (tconst) => {
     const response = await api.get(`/api/titles/${tconst}/overallrating`);
-    return response.data; // { rating: 850000, votes: 2000000 } or null
+    return response.data; 
   },
 
   getEpisodes: async (tconst) => {
-  const response = await api.get(`/api/titles/${tconst}/episodes`);
-  return response.data || []; // returns array of episode objects
-},
+    const response = await api.get(`/api/titles/${tconst}/episodes`);
+    return response.data || []; 
+  },
 
   getRelatedMovies: async (tconst, limit = 10) => {
-  const response = await api.get(`/api/functions/related-movies`, {
-    params: { tconst, limit }
-  });
-  return response.data;
-},
+    const response = await api.get(`/api/functions/related-movies`, {
+      params: { tconst, limit }
+    });
+    return response.data;
+  },
+
+  deleteRating: async (tconst) => {
+    const response = await api.delete(`/api/titles/ratings/${tconst}`);
+    return response.data;
+  },
 };
